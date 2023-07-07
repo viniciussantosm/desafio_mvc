@@ -1,0 +1,16 @@
+{
+    "name": "bis2bis/mvc",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "src\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "viniciussantosm",
+            "email": "vinicius.santos@bis2bis.com.br"
+        }
+    ],
+    "require": {}
+}
