@@ -1,10 +1,9 @@
 <?php
 
-declare(strict_types=1);
 
 namespace src\Controller;
 
-class PostController implements Controller {
+class PostController extends Controller {
 
     public function __construct()
     {
@@ -13,31 +12,31 @@ class PostController implements Controller {
 
     public function index()
     {
-        echo 'index post';
+        return $this->view("posts.index");
     }
 
     public function create()
     {
-        echo 'create post';
+        return $this->view("posts.create");
     }
 
     public function store()
     {
-        echo 'store post';
+        return $this->view("posts.store");
     }
 
     public function edit()
     {
-        echo 'edit post';
+        return $this->view("posts.edit");
     }
 
     public function update()
     {
-        echo 'update post';
+        return $this->view("posts.update");
     }
 
     public function destroy()
     {
-        echo 'destroy post';
+        return $this->view("posts.destroy");
     }
 }
