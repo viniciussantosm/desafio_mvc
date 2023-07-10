@@ -1,11 +1,13 @@
 <?php
 
-declare(strict_types=1);
 
 namespace src\Controller;
 
-interface Controller {
+abstract class Controller {
 
-    public function processRequest();
-    
+    public function view($viewName)
+    {
+        $requiredViewName = str_replace(".", "/", $viewName);
+        return require_once(__DIR__ . "/../../views/$requiredViewName.php");
+    }
 }
