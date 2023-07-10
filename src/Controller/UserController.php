@@ -2,7 +2,7 @@
 
 namespace src\Controller;
 
-class UserController implements Controller {
+class UserController extends Controller {
 
     public function __construct()
     {
@@ -11,11 +11,31 @@ class UserController implements Controller {
 
     public function index()
     {
-        echo 'index user';
+        return $this->view("users.index");
     }
 
-    public function processRequest()
+    public function create()
     {
-        require_once __DIR__ . '/../../views/users/index.php';
+        return $this->view("users.create");
+    }
+
+    public function store()
+    {
+        return $this->view("users.store");
+    }
+
+    public function edit()
+    {
+        return $this->view("users.edit");
+    }
+
+    public function update()
+    {
+        return $this->view("users.update");
+    }
+
+    public function destroy()
+    {
+        return $this->view("users.destroy");
     }
 }
