@@ -3,8 +3,10 @@
 namespace src\Router;
 
 use src\Controller\{
+    CategoryController,
     PostController,
     UserController,
+    TagController
 };
 
 class Router {
@@ -20,12 +22,18 @@ class Router {
         
         $this->routes = [
             "posts" => PostController::class,
-            "users" => UserController::class
+            "users" => UserController::class,
+            "categories" => CategoryController::class,
+            "tags" => TagController::class,
         ];
     }
 
     public function dispatch() {
-    
+        if (file_exists(ROOT . $_SERVER["REQUEST_URI"])) {
+            header('Content-Type: image/*');
+            readfile(ROOT . $_SERVER["REQUEST_URI"]);
+        }
+        
         $this->validateUri($_SERVER["REQUEST_URI"]);
 
         $action = trim($_SERVER["REQUEST_URI"], '/');
@@ -57,14 +65,15 @@ class Router {
             header("Location: /posts/index");
         }
 
-        if($explodedUri[2]) {
-            if($explodedUri[1] == "edit") {
+        if($explodedUri[1] == "edit") {
+            if(!$explodedUri[2]) {
+                header("Location: /posts/index");
+            } else {
                 $value = filter_var($explodedUri[2], FILTER_SANITIZE_NUMBER_INT);
                 if(!$value) {
+                    echo "Aqui";
                     header("Location: /posts/index");
                 }
-            } else {
-                header("Location: /posts/index");
             }
         }
     }
