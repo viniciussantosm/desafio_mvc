@@ -30,10 +30,17 @@ class Router {
 
     public function dispatch() {
         if (file_exists(ROOT . $_SERVER["REQUEST_URI"])) {
-            header('Content-Type: image/*');
-            readfile(ROOT . $_SERVER["REQUEST_URI"]);
+            if(strpos(ROOT . $_SERVER["REQUEST_URI"], ".css")) {
+                header('Content-Type: text/css');
+            } else {
+                header('Content-Type: '.mime_content_type(ROOT . $_SERVER["REQUEST_URI"]));
+            }
+            $fh = fopen(ROOT . $_SERVER["REQUEST_URI"], 'r');
+            fpassthru($fh);
+            fclose($fh);
+            return false;
         }
-        
+
         $this->validateUri($_SERVER["REQUEST_URI"]);
 
         $action = trim($_SERVER["REQUEST_URI"], '/');
