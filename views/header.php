@@ -7,6 +7,7 @@
     <meta name="author" content="Vinicius Santos">
     <meta name="keywords" content="blog, experiências, blogueiro, blogueira, criador de conteúdo">
     <title>BloggerO</title>
+    <link rel="stylesheet" href="http://<?=$_SERVER["HTTP_HOST"]?>/css/styles.css">
 </head>
 <body>
     <nav>
@@ -15,5 +16,6 @@
             <li><a href="http://<?=$_SERVER["HTTP_HOST"]?>/categories/index">Categorias</a></li>
             <li><a href="http://<?=$_SERVER["HTTP_HOST"]?>/tags/index">Tags</a></li>
             <li><a href="http://<?=$_SERVER["HTTP_HOST"]?>/posts/index">Meus Posts</a></li>
+            <li><a href="http://<?=$_SERVER["HTTP_HOST"]?>/auth/login">Login</a></li>
         </ul>
     </nav>
