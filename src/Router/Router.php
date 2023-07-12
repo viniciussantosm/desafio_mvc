@@ -3,10 +3,11 @@
 namespace src\Router;
 
 use src\Controller\{
+    AuthController,
     CategoryController,
     PostController,
     UserController,
-    TagController
+    TagController,
 };
 
 class Router {
@@ -25,6 +26,7 @@ class Router {
             "users" => UserController::class,
             "categories" => CategoryController::class,
             "tags" => TagController::class,
+            "authd" => AuthController::class,
         ];
     }
 
