@@ -27,7 +27,9 @@ nav ul{
     list-style: none;
 }
 
-nav ul li a {
+nav ul li,
+nav ul li a,
+nav ul li span {
     text-decoration: none;
     color: #fff;
     text-transform: uppercase;
@@ -175,12 +177,14 @@ footer {
 
 /* Posts create styles */
 
-.form-container {
+.form-container,
+.login-form-container {
     display: flex;
     justify-content: center;
 }
 
-.post-create-form {
+.post-create-form,
+.login-form {
     max-width: 190px;
     display: flex;
     flex-direction: column;
@@ -319,4 +323,38 @@ footer {
 .tag-item:active {
     background-color: rgb(11, 135, 184);
     transition: all .3s ease-out;
+}
+
+/* Flash Message styles */
+.flash-message-container {
+    width: 75%;
+    margin: 0 auto;
+    background-color: #eeeeeeb1;
+}
+
+.flash-message {
+    width: 100%;
+    padding-top: 1em;
+}
+
+.flash-message.error p {
+    margin: 0 auto;
+    padding: 1em;
+    color: #842029;
+    border: 1px solid #f5c2c7;
+    background-color: #f8d7da;
+    width: 70%;
+    border-radius: 5px;
+    font-size: 0.9rem;
+}
+
+.flash-message.success p {
+    margin: 0 auto;
+    padding: 1em;
+    color: #0f5132;
+    border: 1px solid #d1e7dd;
+    background-color: #badbcc;
+    width: 70%;
+    border-radius: 5px;
+    font-size: 0.9rem;
 }
