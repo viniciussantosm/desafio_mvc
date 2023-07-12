@@ -3,28 +3,24 @@
 namespace config;
 
 class Database {
-    private $host = "localhost";
-    private $username = "root";
-    private $password = "";
-    private $database = "bloggero";
+    private static $instance = null;
+    private $conn;
 
-    public $conn;
-
-    public function __construct($host, $username, $password, $database)
+    private function __construct()
     {
-        $this->host=$host;
-        $this->username=$username;
-        $this->password=$password;
-        $this->database=$database;
+        $this->conn = new \mysqli(DB_SERVER, DB_USER, DB_PASSWORD, DB_NAME);
     }
 
-    public function connect() {
-        $this->conn = new \mysqli($this->host, $this->username, $this->password, $this->database);
-        if(mysqli_connect_error()) {
-            echo mysqli_connect_error();
-            exit();
-        } else {
-            return $this->conn;
+    public static function getInstance()
+    {
+        if(!self::$instance) {
+            self::$instance = new Database();
         }
+        return self::$instance;
+    }
+
+    public function getConn()
+    {
+        return $this->conn;
     }
 }
