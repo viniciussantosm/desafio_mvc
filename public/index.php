@@ -9,6 +9,7 @@ use config\Database;
 
 define("ROOT", __DIR__);
 
+session_start();
 $router = new Router();
 $router->init();
 $router->dispatch();
