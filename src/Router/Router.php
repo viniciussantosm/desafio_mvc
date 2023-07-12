@@ -13,7 +13,7 @@ use src\Controller\{
 class Router {
 
     private $routes = [];
-    private $validControllerMethods = ["index", "create", "store", "edit", "update", "destroy"];
+    private $validControllerMethods = ["index", "create", "store", "edit", "update", "destroy", "login", "register"];
 
     public function __construct() {
         
@@ -26,7 +26,7 @@ class Router {
             "users" => UserController::class,
             "categories" => CategoryController::class,
             "tags" => TagController::class,
-            "authd" => AuthController::class,
+            "auth" => AuthController::class,
         ];
     }
 
@@ -42,7 +42,7 @@ class Router {
             fclose($fh);
             return false;
         }
-
+        
         $this->validateUri($_SERVER["REQUEST_URI"]);
 
         $action = trim($_SERVER["REQUEST_URI"], '/');
@@ -61,7 +61,7 @@ class Router {
     public function validateUri($uri)
     {
         if(!is_string($uri)) {
-            header("Location: /");
+            header("Location: /posts");
         }
 
         $explodedUri = explode("/", trim($uri, "/"));
