@@ -2,6 +2,8 @@
 
 namespace src\Controller;
 
+use src\Repository\UserRepository;
+
 class UserController extends Controller {
 
     public function __construct()
@@ -11,6 +13,9 @@ class UserController extends Controller {
 
     public function index()
     {
+        if(!$_SESSION["isLoggedIn"]) {
+            header("Location: /posts/index");
+        }
         return $this->view("users.index");
     }
 
@@ -26,12 +31,30 @@ class UserController extends Controller {
 
     public function edit()
     {
-        return $this->view("users.edit");
+        if(!$_SESSION["isLoggedIn"]) {
+            header("Location: /posts/index");
+        }
+
+        $userRepo = new UserRepository();
+        $userData = $userRepo->findById($_SESSION["userId"]);
+
+        return $this->view("users.edit", $userData);
     }
 
     public function update()
     {
-        return $this->view("users.update");
+        $userRepo = new UserRepository();
+        if(!$userRepo->update($_POST)) {
+            if(!$_SESSION["message"]) {
+                $_SESSION["message"]["type"] = "error";
+                $_SESSION["message"]["value"] = "Erro ao atualizar dados";
+            };
+            return $this->view("users.edit", $_POST);
+        };
+        $_SESSION["message"]["type"] = "success";
+        $_SESSION["message"]["value"] = "Dados atualizados com sucesso";
+        $_SESSION["name"] = explode(" ", $_POST["name"])[0];
+        header("Location: /users/edit/$_SESSION[userId]");
     }
 
     public function destroy()
