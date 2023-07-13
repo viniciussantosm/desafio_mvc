@@ -1,15 +1,19 @@
 <?php
 
-require("vendor/autoload.php");
-require("config/config.ini.php");
-require("config/Conn.php");
+require_once("vendor/autoload.php");
+require_once("config/Conn.php");
 
-use src\Router\Router;
-use config\Database;
+use App\Router\Router;
+use App\Model\Messages\RouteMessages;
+use App\Model\Messages\UserMessages;
+use App\Model\Session;
 
 define("ROOT", __DIR__);
 
 session_start();
-$router = new Router();
+$messageRouter = new RouteMessages();
+$messageUser = new UserMessages();
+$session = Session::getInstance();
+$router = new Router($messageRouter, $messageUser, $session);
 $router->init();
 $router->dispatch();
