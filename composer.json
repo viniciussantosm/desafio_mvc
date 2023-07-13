@@ -3,8 +3,14 @@
     "type": "project",
     "autoload": {
         "psr-4": {
-            "src\\": "src/"
-        }
+            "src\\": "src/",
+            "Library\\": "lib/",
+            "App\\": "app/",
+            "Config\\": "config/"
+        },
+        "files": [
+            "config/config.ini.php"
+        ]
     },
     "authors": [
         {
@@ -12,5 +18,8 @@
             "email": "vinicius.santos@bis2bis.com.br"
         }
     ],
-    "require": {}
+    "require": {},
+    "scripts": {
+        "server": "php -S localhost:8080 -t public/ public/index.php"
+    }
 }
