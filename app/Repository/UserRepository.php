@@ -3,50 +3,27 @@
 namespace App\Repository;
 
 use App\Model\Session;
-use config\Database;
-use src\Model\User;
 
 class UserRepository extends Repository {
 
-    private $conn;
-
     public function __construct()
     {
-        $instance = Database::getInstance();
-        $this->conn = $instance->getConn();
+        parent::__construct();
     }
 
     public function findAll()
     {
-        $query = $this->conn->query("SELECT * FROM users");
-        if($query->num_rows > 0) {
-            $rows = $query->fetch_all(MYSQLI_ASSOC);
-            $query->free_result();
-            return $rows;
-        }
-        return [];
+        return $this->selectQuery("users");
     }
 
     public function findById($id)
     {
-        $query =  $this->conn->query("SELECT * FROM users WHERE id = $id");
-        if($query->num_rows > 0) {
-            $row = $query->fetch_assoc();
-            $query->free_result();
-            return $row;
-        }
-        return [];
+        return $this->selectQuery("users", "*", "id = $id")[0];
     }
 
     public function findByEmail($email)
     {
-        $query = $this->conn->query("SELECT * FROM users WHERE email = '$email'");
-        if($query->num_rows > 0) {
-            $row = $query->fetch_assoc();
-            $query->free_result();
-            return $row;
-        }
-        return [];
+        return $this->selectQuery("users", "*", "email = '$email'")[0];
     }
 
     public function create($data)
@@ -54,26 +31,22 @@ class UserRepository extends Repository {
         if(!$this->dataVerify($data)) {
             return false;
         }
-        $query = "INSERT INTO users (name, email, password) VALUES (?, ?, ?)";
-        $stmt = $this->conn->prepare($query);
         $data['password'] = password_hash($data['password'], PASSWORD_ARGON2ID);
-        $stmt->bind_param("sss", $data['name'], $data['email'], $data['password']);
-        $result = $stmt->execute();
+        $result = $this->insertQuery("users", ["name", "email", "password"], [$data['name'], $data['email'], $data['password']]);
 
-        if(!$result) return false;
-        
-        $result = $stmt->insert_id;
-        session_start();
-        Session::setUserId($result);
-        SEssion::setName(explode(" ", $data['name'])[0]);
+        if(!$result) {
+            return false;
+        }
+
+        $user = $this->findByEmail($data['email']);
+        Session::setUserId($user[0]['id']);
+        Session::setName(explode(" ", $user[0]['name'])[0]);
         Session::setLoggedIn(true);
         return $result;
     }
 
     public function update($data)
     {
-        $query = "UPDATE users SET name = ?, password = ? WHERE id = ?";
-        $stmt = $this->conn->prepare($query);
 
         if(!$this->checkId($data['id'])) {
             return false;
@@ -88,10 +61,11 @@ class UserRepository extends Repository {
         if(!$this->passwordVerify($data['password'])) {
             return false;
         }
-        
+
         $data["password"] = password_hash($data["password"], PASSWORD_ARGON2ID);
-        $stmt->bind_param("ssi", $data['name'], $data['password'], $data['id']);
-        $result = $stmt->execute();
+
+        $result = $this->updateQuery("users", ["name", "email", "password"], [$data['name'], $data['email'], $data['password']], "id = {$data['id']}");
+        
         return $result;
     }
 
@@ -100,7 +74,7 @@ class UserRepository extends Repository {
         // TODO: Implement delete() method.
     }
 
-    public function save()
+    public function save($data)
     {
         // TODO: Implement save() method.
     }
