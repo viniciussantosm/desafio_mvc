@@ -7,30 +7,11 @@
             <h2>Categorias</h2>
         </div>
         <div class="categories-container">
+            <?php foreach($data as $category): ?>
             <div class="category-item">
-                <a href=""><h3>Categoria 1</h3></a>
+                <a href=""><h3><?=$category["name"]?></h3></a>
             </div>
-            <div class="category-item">
-                <a href=""><h3>Categoria 2</h3></a>
-            </div>
-            <div class="category-item">
-                <a href=""><h3>Categoria 3</h3></a>
-            </div>
-            <div class="category-item">
-                <a href=""><h3>Categoria 4</h3></a>
-            </div>
-            <div class="category-item">
-                <a href=""><h3>Categoria 5</h3></a>
-            </div>
-            <div class="category-item">
-                <a href=""><h3>Categoria 6</h3></a>
-            </div>
-            <div class="category-item">
-                <a href=""><h3>Categoria 7</h3></a>
-            </div>
-            <div class="category-item">
-                <a href=""><h3>Categoria 8</h3></a>
-            </div>
+            <?php endforeach; ?>
         </div>
     </div>
 </div>
