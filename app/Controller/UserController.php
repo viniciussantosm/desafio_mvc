@@ -32,33 +32,9 @@ class UserController extends Controller {
         return $this->view("users.store");
     }
 
-    public function edit()
-    {
-        if(!Session::isLoggedIn()) {
-            Router::redirect(RouteMessages::getMessage("posts.index"));
-        }
-
-        $userRepo = new UserRepository();
-        $userData = $userRepo->findById(Session::getUserId());
-
-        return $this->view("users.edit", $userData);
-    }
-
     public function update()
     {
-        $userRepo = new UserRepository();
-        if(!$userRepo->update($_POST)) {
-            if(!Session::getMessage()) {
-                Session::setMessage("error", "Erro ao atualizar dados"); 
-            };
-            return $this->view("users.edit", $_POST);
-        };
-        Session::setMessage("success", "Dados atualizados com sucesso");
-        Session::setName(explode(" ", $_POST["name"])[0]);
-        Router::redirect(sprintf("%s%s",
-                RouteMessages::getMessage("users.edit"),
-                Session::getUserId())
-            );
+        
     }
 
     public function destroy()
