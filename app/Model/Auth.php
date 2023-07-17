@@ -13,13 +13,19 @@ class Auth {
     public function __construct() {
     }
 
-    public function login($email) {
+    public function login($email, $password) {
         $userRepo = new UserRepository();
         $userData = $userRepo->findByEmail($email);
-        if(!$this->validatePasswords($userData, $_POST['password'], $userRepo)) {
+        if(!$userData) {
+            return false;
+        }
+        if(!$this->validatePasswords($userData, $password, $userRepo)) {
             return false;
         };
-        session_start();
+        // session_start();
+        // $_SESSION['userId'] = $userData['id'];
+        // $_SESSION['name'] = explode(" ", $userData['name'])[0];
+        // $_SESSION['isLoggedIn'] = true;
         Session::setUserId($userData['id']);
         Session::setName(explode(" ", $userData['name'])[0]);
         Session::setLoggedIn(true);
@@ -29,12 +35,12 @@ class Auth {
     public function logout() {
         session_unset();
         session_destroy();
-        Router::redirect("/posts/index");
+        return true;
     }
 
-    public function register() {
+    public function register($data) {
         $userRepo = new UserRepository();
-        if(!$userRepo->create($_POST)) {
+        if(!$userRepo->create($data)) {
             return false;
         }
         return true;

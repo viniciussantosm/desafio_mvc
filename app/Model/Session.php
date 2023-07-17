@@ -27,43 +27,51 @@ class Session {
 
     public static function getMessage()
     {
-        return self::$message;
+        // return self::$message;
+        return $_SESSION["message"] ?? null;
     }
 
     public static function getName()
     {
-        return self::$name;
+        // return self::$name;
+        return $_SESSION["name"] ?? null;
     }
 
     public static function getUserId()
     {
-        return self::$userId;
+        // return self::$userId;
+        return $_SESSION["userId"] ?? null;
     }
 
     public static function isLoggedIn()
     {
-        return self::$isLoggedIn;
+        // return self::$isLoggedIn;
+        return $_SESSION["isLoggedIn"] ?? null;
     }
 
     public static function setMessage($type, $message)
     {
         $_SESSION["message"]["type"] = $type;
         $_SESSION["message"]["content"] = $message;
+        self::$message = $_SESSION["message"];
     }
 
     public static function setName($name)
     {
-        self::$name = $name;
+        $_SESSION["name"] = $name;
+        self::$name = $_SESSION["name"];
     }
 
     public static function setUserId($userId)
     {
         $_SESSION["userId"] = $userId;
+        self::$userId = $_SESSION["userId"];
     }
 
     public static function setLoggedIn($isLoggedIn)
     {
         $_SESSION["isLoggedIn"] = $isLoggedIn;
+        self::$isLoggedIn = $_SESSION["isLoggedIn"];
     }
 
     public static function unsetMessage()
