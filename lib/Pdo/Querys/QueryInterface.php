@@ -1,8 +1,8 @@
 <?php
 
-namespace Library\Pdo;
+namespace Library\Pdo\Querys;
 
-interface QueryMakerInterface {
+interface QueryInterface {
     public function insertQuery($table, array $fields, array $values);
     public function updateQuery($table, array $fields, array $values, $where = null);
     public function deleteQuery($table, $where = null);

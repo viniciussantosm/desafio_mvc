@@ -1,15 +1,15 @@
 <?php
 
-namespace Library\Pdo;
+namespace Library\Pdo\Querys;
 use Library\Pdo\Database\Mysql;
 
-class QueryMaker implements QueryMakerInterface {
+class SqlQuery implements QueryInterface {
 
     private $conn;
     
-    public function __construct()
+    public function __construct($conn)
     {
-        $this->conn = new Mysql(DB_SERVER, DB_NAME, DB_USER, DB_PASSWORD);
+        $this->conn = $conn;
     }
 
     public function insertQuery($table, array $fields, array $values):bool|string
@@ -18,7 +18,7 @@ class QueryMaker implements QueryMakerInterface {
         $values = implode(", ", array_map([$this, 'addQuotes'], $values));
         $query = "INSERT INTO $table ($fields) VALUES ($values)";
         
-        return $this->executeQuery($this->conn->getConn(), $query);
+        return $this->executeQuery($query);
     }
 
     public function updateQuery($table, array $fields, array $values, $where = null):bool|string
@@ -30,7 +30,7 @@ class QueryMaker implements QueryMakerInterface {
         $query = trim($query, ",");
         $query .= " WHERE $where";
 
-        return $this->executeQuery($this->conn->getConn(), $query);
+        return $this->executeQuery($query);
     }
 
     public function deleteQuery($table, $where = null):bool|string
@@ -41,7 +41,7 @@ class QueryMaker implements QueryMakerInterface {
             $query .= " WHERE $where";
         }
 
-        return $this->executeQuery($this->conn->getConn(), $query);
+        return $this->executeQuery($query);
     }
 
     public function selectQuery($table, $fields = "*", $where = null):array|string
@@ -50,7 +50,7 @@ class QueryMaker implements QueryMakerInterface {
         if($where) {
             $query .= " WHERE $where";
         }
-        return $this->retrieveQuery($this->conn->getConn(), $query);
+        return $this->retrieveQuery($query);
     }
 
     function addQuotes($str)
@@ -58,9 +58,9 @@ class QueryMaker implements QueryMakerInterface {
         return sprintf("'%s'", $str);
     }
 
-    public function executeQuery($pdo, $query)
+    public function executeQuery($query)
     {
-        $stmt = $pdo->prepare($query);
+        $stmt = $this->conn->prepare($query);
         try {
             $stmt->execute();
             return $stmt->rowCount();
@@ -69,10 +69,10 @@ class QueryMaker implements QueryMakerInterface {
         }
     }
 
-    public function retrieveQuery($pdo, $query)
+    public function retrieveQuery($query)
     {
         try {
-            $stmt = $pdo->query($query);
+            $stmt = $this->conn->query($query);
             if($stmt->rowCount() > 0) {
                 return $stmt->fetchAll(\PDO::FETCH_ASSOC);
             }

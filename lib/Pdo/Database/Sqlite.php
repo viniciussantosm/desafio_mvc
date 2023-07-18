@@ -6,7 +6,7 @@ use Library\Pdo\DatabaseInterface;
 use PDO;
 use PDOException;
 
-class Mysql implements DatabaseInterface {
+class Sqlite implements DatabaseInterface {
 
     private $host = DB_SERVER;
     private $name = DB_NAME;
@@ -22,6 +22,6 @@ class Mysql implements DatabaseInterface {
     }
 
     public function getConn():PDO {
-        return new PDO(sprintf("mysql:host=%s;dbname=%s", $this->host, $this->name), $this->user, $this->password, [PDO::ATTR_ERRMODE]);
+        return new PDO(sprintf("sqlite:%s", $this->host), null, null, [PDO::ATTR_ERRMODE]);
     }
 }
