@@ -4,19 +4,21 @@ namespace App\Repository;
 
 class TagsRepository extends Repository {
 
+    private $queryBuilder = null;
+
     public function __construct()
     {
-        parent::__construct();
+        $this->queryBuilder = $this->getQuery();
     }
 
     public function findAll()
     {
-        return $this->selectQuery("tags");
+        return $this->queryBuilder->selectQuery("tags");
     }
 
     public function findById($id)
     {
-        return $this->selectQuery("tags", "*", "id = $id")[0];
+        return $this->queryBuilder->selectQuery("tags", "*", "id = $id")[0];
     }
 
     public function create($data)
@@ -29,16 +31,16 @@ class TagsRepository extends Repository {
 
     public function delete($id)
     {
-        return $this->deleteQuery("tags", "id = {$id}");
+        return $this->queryBuilder->deleteQuery("tags", "id = {$id}");
     }
 
     public function save($data)
     {
         if($data["id"]) {
-            return $this->updateQuery("tags", ["name"], [$data['name']], "id = {$data['id']}");
+            return $this->queryBuilder->updateQuery("tags", ["name"], [$data['name']], "id = {$data['id']}");
         }
 
-        return $this->insertQuery(
+        return $this->queryBuilder->insertQuery(
             "tags", 
             ["name"], 
             [$data['name']]

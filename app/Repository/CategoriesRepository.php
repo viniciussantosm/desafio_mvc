@@ -4,19 +4,21 @@ namespace App\Repository;
 
 class CategoriesRepository extends Repository {
 
+    private $queryBuilder = null;
+
     public function __construct()
     {
-        parent::__construct();
+        $this->queryBuilder = $this->getQuery();
     }
 
     public function findAll()
     {
-        return $this->selectQuery("categories");
+        return $this->queryBuilder->selectQuery("categories");
     }
 
     public function findById($id)
     {
-        return $this->selectQuery("categories", "*", "id = $id")[0];
+        return $this->queryBuilder->selectQuery("categories", "*", "id = $id")[0];
     }
 
     public function create($data)
@@ -29,16 +31,16 @@ class CategoriesRepository extends Repository {
 
     public function delete($id)
     {
-        return $this->deleteQuery("categories", "id = {$id}");
+        return $this->queryBuilder->deleteQuery("categories", "id = {$id}");
     }
 
     public function save($data)
     {
         if(array_key_exists("id", $data)) {
-            return $this->updateQuery("categories", ["name"], [$data['name']], "id = {$data['id']}");
+            return $this->queryBuilder->updateQuery("categories", ["name"], [$data['name']], "id = {$data['id']}");
         }
         
-        return $this->insertQuery(
+        return $this->queryBuilder->insertQuery(
             "categories", 
             ["name"], 
             [$data['name']]

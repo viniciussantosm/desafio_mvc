@@ -1,9 +1,9 @@
 <?php
 
 namespace App\Repository;
-use Library\Pdo\QueryMaker;
+use Library\Pdo\ConnectionAdapter;
 
-abstract class Repository extends QueryMaker {
+abstract class Repository extends ConnectionAdapter {
     abstract function findAll();
     abstract function findById($id);
     abstract function create($data);

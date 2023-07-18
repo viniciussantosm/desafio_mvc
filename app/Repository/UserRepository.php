@@ -6,24 +6,27 @@ use App\Model\Session;
 
 class UserRepository extends Repository {
 
+    private $queryBuilder = null;
+
     public function __construct()
     {
-        parent::__construct();
+        $this->queryBuilder = $this->getQuery();
     }
 
     public function findAll()
     {
-        return $this->selectQuery("users");
+        return $this->queryBuilder->selectQuery("users");
+        // return $this->selectQuery("users");
     }
 
     public function findById($id)
     {
-        return $this->selectQuery("users", "*", "id = $id")[0];
+        return $this->queryBuilder->selectQuery("users", "*", "id = $id")[0];
     }
 
     public function findByEmail($email)
     {
-        return $this->selectQuery("users", "*", "email = '$email'")[0];
+        return $this->queryBuilder->selectQuery("users", "*", "email = '$email'")[0];
     }
 
     public function create($data)
@@ -32,7 +35,7 @@ class UserRepository extends Repository {
             return false;
         }
         $data['password'] = password_hash($data['password'], PASSWORD_ARGON2ID);
-        $result = $this->insertQuery("users", ["name", "email", "password"], [$data['name'], $data['email'], $data['password']]);
+        $result = $this->queryBuilder->insertQuery("users", ["name", "email", "password"], [$data['name'], $data['email'], $data['password']]);
 
         if(!$result) {
             return false;
@@ -64,7 +67,7 @@ class UserRepository extends Repository {
 
         $data["password"] = password_hash($data["password"], PASSWORD_ARGON2ID);
 
-        $result = $this->updateQuery("users", ["name", "email", "password"], [$data['name'], $data['email'], $data['password']], "id = {$data['id']}");
+        $result = $this->queryBuilder->updateQuery("users", ["name", "email", "password"], [$data['name'], $data['email'], $data['password']], "id = {$data['id']}");
         
         return $result;
     }
