@@ -89,9 +89,14 @@ class Route {
     public function checkForEdit($uri)
     {
         $explodedUri = explode("/", trim($uri, "/"));
-        if(!array_key_exists(1, $explodedUri) && !$explodedUri[1] == "edit") {
+        if(!array_key_exists(1, $explodedUri)) {
             return;
         }
+
+        if(!$explodedUri[1] == "edit") {
+            return;
+        }
+
         array_pop($explodedUri);
         $explodedUri = implode("/", $explodedUri);
         if(trim($this->route, "/") == $explodedUri) {
