@@ -29,7 +29,7 @@ class SqlQuery implements QueryInterface {
         }
         $query = trim($query, ",");
         $query .= " WHERE $where";
-
+        
         return $this->executeQuery($query);
     }
 
@@ -47,6 +47,15 @@ class SqlQuery implements QueryInterface {
     public function selectQuery($table, $fields = "*", $where = null):array|string
     {
         $query = "SELECT $fields FROM $table";
+        if($where) {
+            $query .= " WHERE $where";
+        }
+        return $this->retrieveQuery($query);
+    }
+
+    public function selectWithJoin($table, $fields = "*", $joins = null, $where = null):array|string
+    {
+        $query = "SELECT $fields FROM $table $joins";
         if($where) {
             $query .= " WHERE $where";
         }
