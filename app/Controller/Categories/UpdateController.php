@@ -2,23 +2,22 @@
 
 namespace App\Controller\Categories;
 use App\Controller\ControllerAbstract;
-use App\Model\Category;
 use App\Model\Session;
 use App\Repository\CategoriesRepository;
 use App\Router\Router;
 
-class StoreController extends ControllerAbstract {
-
+class UpdateController extends ControllerAbstract {
+    
     public function execute()
     {
-        $categoryRepo = new CategoriesRepository();
-        if(!$categoryRepo->save($this->getParams())) {
+        $categoriesRepo = new CategoriesRepository();
+        if(!$categoriesRepo->save($this->getParams())) {
             if(!Session::getMessage()) {
                 Session::setMessage("error", "Ocorreu um erro, tente novamente");
             };
-            return $this->view("categories.create", $_POST);
+            return $this->view("dashboard.categories", $_POST);
         }
-        Session::setMessage("success", "Categoria criada com sucesso");
+        Session::setMessage("success", "Categoria atualizada com sucesso");
         Router::redirect("/dashboard/categories");
     }
 }

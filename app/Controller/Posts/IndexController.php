@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Controller\Posts;
 use App\Controller\ControllerAbstract;
 use App\Repository\PostsRepository;

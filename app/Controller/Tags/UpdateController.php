@@ -6,7 +6,7 @@ use App\Model\Session;
 use App\Repository\TagsRepository;
 use App\Router\Router;
 
-class StoreController extends ControllerAbstract {
+class UpdateController extends ControllerAbstract {
     
     public function execute()
     {
@@ -15,9 +15,9 @@ class StoreController extends ControllerAbstract {
             if(!Session::getMessage()) {
                 Session::setMessage("error", "Ocorreu um erro, tente novamente");
             };
-            return $this->view("tags.create", $_POST);
+            return $this->view("dashboard.tags", $_POST);
         }
-        Session::setMessage("success", "Tag criada com sucesso");
+        Session::setMessage("success", "Tag atualizada com sucesso");
         Router::redirect("/dashboard/tags");
     }
 }

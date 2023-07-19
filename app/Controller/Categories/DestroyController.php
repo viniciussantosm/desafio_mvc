@@ -1,10 +1,10 @@
 <?php
 
 
-namespace App\Controller\Posts;
+namespace App\Controller\Categories;
 use App\Controller\ControllerAbstract;
 use App\Model\Session;
-use App\Repository\PostsRepository;
+use App\Repository\CategoriesRepository;
 use App\Repository\UserRepository;
 use App\Router\Router;
 
@@ -13,18 +13,18 @@ class DestroyController extends ControllerAbstract {
 
     public function execute() {
         $data = $this->getParams();
-        $postsRepo = new PostsRepository();
+        $categoriesRepo = new CategoriesRepository();
 
-        if(!$postsRepo->delete($data["id"])) {
+        if(!$categoriesRepo->delete($data["id"])) {
             if(!Session::getMessage()) {
-                Session::setMessage("error", "Erro ao excluir post"); 
+                Session::setMessage("error", "Erro ao excluir categoria"); 
             };
 
-            return $this->view("posts.edit", $data);
+            return $this->view("dashboard.categories", $data);
         };
 
-        Session::setMessage("success", "Post excluído com sucesso");
-        Router::redirect(sprintf("%s", "/users/index"));
+        Session::setMessage("success", "Categoria excluída com sucesso");
+        Router::redirect(sprintf("%s", "/dashboard/categories"));
 
     }
 
