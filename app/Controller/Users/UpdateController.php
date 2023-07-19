@@ -22,9 +22,5 @@ class UpdateController extends ControllerAbstract {
         Router::redirect(sprintf("%s",
                 "/users/edit")
             );
-        // Router::redirect(sprintf("%s%s",
-        //     "/users/edit/",
-        //     Session::getUserId())
-        // );
     }
 }
