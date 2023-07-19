@@ -358,3 +358,94 @@ footer {
     border-radius: 5px;
     font-size: 0.9rem;
 }
+
+/* Users index styles */
+
+.my-posts-container {
+    padding: 0 1.5em;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: auto;
+}
+
+.my-post {
+    width: 150px;
+    height: 150px;
+    position: relative;
+}
+
+.my-post:hover .my-post-image-container {
+    transition: all .6s ease-out;
+    filter: blur(2px);
+    scale: 1.1;
+}
+
+.my-post-image-container {
+    width: 100%;
+    height: 100%;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.my-post-image-container img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    object-position: center;
+}
+
+.my-post-actions {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.my-post-actions a {
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.post-edit-button,
+.post-delete-button {
+    text-transform: uppercase;
+    font-size: .9rem;
+    padding: .5em 1em;
+    border-radius: 5px;
+    width: 40%;
+    text-align: center;
+    opacity: 0;
+}
+
+.my-post:hover .post-edit-button,
+.my-post:hover .post-delete-button {
+    transition: all .6s ease-out;
+    opacity: 1;
+}
+
+.post-edit-button {
+    color: rgb(20, 180, 243);
+    border: 2px solid rgb(20, 180, 243);
+    margin-bottom: 1em;
+}
+
+.post-delete-button {
+    color: rgb(243, 20, 57);
+    border: 2px solid rgb(243, 20, 57);
+}
+
+.post-delete-button:hover {
+    transition: all .2s ease-out;
+    color: rgb(241, 85, 111);
+    border: 2px solid rgb(241, 85, 111);
+}
+
+.post-edit-button:hover {
+    transition: all .2s ease-out;
+    color: rgb(123, 209, 244);
+    border: 2px solid rgb(123, 209, 244);
+}
