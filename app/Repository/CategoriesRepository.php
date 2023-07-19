@@ -21,6 +21,16 @@ class CategoriesRepository extends Repository {
         return $this->queryBuilder->selectQuery("categories", "*", "id = $id")[0];
     }
 
+    public function findByPostId($id)
+    {
+        return $this->queryBuilder->selectWithJoin(
+                                    "posts_categories", 
+                                    "*", 
+                                    "INNER JOIN bloggero.categories ON bloggero.posts_categories.id_category = bloggero.categories.id",
+                                    "id_post = $id"
+                                );
+    }
+
     public function create($data)
     {
     }

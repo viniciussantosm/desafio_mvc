@@ -21,6 +21,16 @@ class TagsRepository extends Repository {
         return $this->queryBuilder->selectQuery("tags", "*", "id = $id")[0];
     }
 
+    public function findByPostId($id)
+    {
+        return $this->queryBuilder->selectWithJoin(
+                                "posts_tags", 
+                                "*", 
+                                "INNER JOIN bloggero.tags ON bloggero.posts_tags.id_tag = bloggero.tags.id",
+                                "id_post = $id"
+                            );
+    }
+
     public function create($data)
     {
     }
@@ -36,7 +46,8 @@ class TagsRepository extends Repository {
 
     public function save($data)
     {
-        if($data["id"]) {
+        $data["name"] = $this->sanitizeTag($data["name"]);
+        if(array_key_exists("id", $data)) {
             return $this->queryBuilder->updateQuery("tags", ["name"], [$data['name']], "id = {$data['id']}");
         }
 
@@ -45,5 +56,21 @@ class TagsRepository extends Repository {
             ["name"], 
             [$data['name']]
         );
+    }
+
+    public function sanitizeTag ($data)
+    {
+        $data = explode(" ", $data);
+        
+        if(count($data) == 1) {
+            trim($data[0], "#");
+            $data = sprintf("#%s", $data[0]);
+            return $data;
+        }
+
+        $data = trim($data[0], "#");
+        $data = sprintf("#%s", $data);
+
+        return $data;
     }
 }
