@@ -21,8 +21,8 @@
                 // var_dump(Session::getUserId());
                 if(Session::isLoggedIn()):
             ?>
-                <li><a href="http://<?=$_SERVER["HTTP_HOST"]?>/users/index">Meus Posts</a></li>
-                <li><span>Bem-vindo,</span> <a href="http://<?=$_SERVER["HTTP_HOST"]?>/users/edit/<?=Session::getUserId()?>"><?=Session::getName()?></a> / <a href="http://<?=$_SERVER["HTTP_HOST"]?>/auth/logout">Sair</a></li>
+                <!-- <li><span>Bem-vindo,</span> <a href="http://<?=$_SERVER["HTTP_HOST"]?>/users/edit/<?=Session::getUserId()?>"><?=Session::getName()?></a> / <a href="http://<?=$_SERVER["HTTP_HOST"]?>/auth/logout">Sair</a></li> -->
+                <li><span>Bem-vindo,</span> <a href="http://<?=$_SERVER["HTTP_HOST"]?>/dashboard/index"><?=Session::getName()?></a> / <a href="http://<?=$_SERVER["HTTP_HOST"]?>/auth/logout">Sair</a></li>
             <?php else: ?>
                 <li><a href="http://<?=$_SERVER["HTTP_HOST"]?>/auth/index">Login</a></li>
                 <li><a href="http://<?=$_SERVER["HTTP_HOST"]?>/auth/register">Registrar</a></li>

@@ -1,19 +1,18 @@
 <div class="container">
     <div class="title-container">
-        <h1>Bem-vindo ao Blogger<span class="title-o">O</span></h1>
+        <h1><?=$data["tag"]["name"]?></span></h1>
     </div>
-
     <div class="posts-container">
-        <?php foreach($data as $post): ?>
-            <div class="post">
-                <a href="http://<?=$_SERVER["HTTP_HOST"]?>/posts/show/?id=<?=$post["post_id"]?>" class="post-link">
-                    <div class="post-title"><?= $post["post_title"] ?></div>
+        <?php if($data["posts"]): ?>
+            <?php foreach($data["posts"] as $post): ?>
+                <div class="post">
+                    <div class="post-title"><?= $post["title"] ?></div>
                     <div class="post-image-container">
                         <img src="http://<?=$_SERVER["HTTP_HOST"] . $post["img_path"]?>" alt="post 1 image">
                     </div>
                     <div class="post-author">
-                        <span class="author"><?=$post["post_user"]?></span>
-                        <span class="post-date"><?=$post["post_created_at"]?></span>
+                        <span class="author"><?=$post["user"]?></span>
+                        <span class="post-date"><?=$post["created_at"]?></span>
                     </div>
                     <div class="posts-comments-container">
                         <div class="comment">
@@ -23,8 +22,11 @@
                             </div>
                         </div>
                     </div>
-                </a>
-            </div>
-        <?php endforeach; ?>
+                </div>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <p>Ainda não há posts cadastrados com esta tag. Que tal criar um?</p>
+            <a href="http://<?=$_SERVER["HTTP_HOST"]?>/posts/create" class="new-entity-link">Criar Post</a>
+        <?php endif; ?>
     </div>
 </div>
