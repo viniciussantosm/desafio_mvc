@@ -13,7 +13,7 @@ class TagsRepository extends Repository {
 
     public function findAll()
     {
-        return $this->queryBuilder->selectQuery("tags");
+        return $this->queryBuilder->selectQuery("tags", "id, name, DATE_FORMAT(created_at, \"%d/%m/%Y\") AS created_at");
     }
 
     public function findById($id)
@@ -29,6 +29,16 @@ class TagsRepository extends Repository {
                                 "INNER JOIN bloggero.tags ON bloggero.posts_tags.id_tag = bloggero.tags.id",
                                 "id_post = $id"
                             );
+    }
+
+    public function findPostsByTagId($id)
+    {
+        return $this->queryBuilder->selectWithJoin(
+                                    "posts_tags", 
+                                    "posts.id, posts.title, posts.text, DATE_FORMAT(posts.created_at, \"%d/%m/%Y\") AS created_at, users.name AS user, tags.name AS tag, posts_images.img_path", 
+                                    "INNER JOIN posts ON posts.id = posts_tags.id_post LEFT JOIN posts_images ON posts_images.id_post = posts.id LEFT JOIN users ON users.id = posts.id_user LEFT JOIN tags ON tags.id = posts_tags.id_tag",
+                                    "id_tag = $id ORDER BY posts.created_at DESC"
+                                );
     }
 
     public function create($data)
@@ -47,6 +57,7 @@ class TagsRepository extends Repository {
     public function save($data)
     {
         $data["name"] = $this->sanitizeTag($data["name"]);
+        
         if(array_key_exists("id", $data)) {
             return $this->queryBuilder->updateQuery("tags", ["name"], [$data['name']], "id = {$data['id']}");
         }
@@ -61,9 +72,8 @@ class TagsRepository extends Repository {
     public function sanitizeTag ($data)
     {
         $data = explode(" ", $data);
-        
         if(count($data) == 1) {
-            trim($data[0], "#");
+            $data[0] = trim($data[0], "#");
             $data = sprintf("#%s", $data[0]);
             return $data;
         }

@@ -28,7 +28,11 @@ class PostsRepository extends Repository {
 
     public function findById($id)
     {
-        return $this->queryBuilder->selectQuery("posts", "*", "id = $id")[0];
+        return $this->queryBuilder->selectWithJoin(
+                                "posts",
+                                "posts.id, posts.title, posts.text, DATE_FORMAT(posts.created_at, \"%d/%m/%Y\") AS created_at, users.name, posts_images.img_path",
+                                "LEFT JOIN users ON users.id = posts.id_user LEFT JOIN posts_images ON posts_images.id_post = posts.id",
+                                "posts.id = $id")[0];
     }
 
     public function findByUserId($id)
@@ -60,6 +64,7 @@ class PostsRepository extends Repository {
 
     public function delete($id)
     {
+        $this->deletePostImages($id);
         return $this->queryBuilder->deleteQuery("posts", "id = {$id}");
     }
 
@@ -96,7 +101,7 @@ class PostsRepository extends Repository {
             return false;
         }
 
-        if($data["id"]) {
+        if(array_key_exists("id", $data)) {
             $this->queryBuilder->updateQuery("posts", ["title", "text"], [$data['title'], $data['text']], "id = {$data['id']}");
             
             $this->deletePostImages($data["id"]);
