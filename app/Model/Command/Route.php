@@ -25,8 +25,8 @@ class Route {
             return $this->execute();
         }
 
-        if($this->checkForEdit($uri)) {
-            return false;
+        if($this->checkForEditAndDestroy($uri)) {
+            return $this->execute();
         }
         
         if ($this->getNext()) {
@@ -89,20 +89,22 @@ class Route {
         return true;
     }
 
-    public function checkForEdit($uri)
+    public function checkForEditAndDestroy($uri)
     {
         $explodedUri = explode("/", trim($uri, "/"));
         if(!array_key_exists(1, $explodedUri)) {
             return false;
         }
-        
-        if(!$explodedUri[1] == "edit") {
+
+        if(!$explodedUri[1] == "edit" && !$explodedUri[1] == "destroy" && !$explodedUri[1] == "show") {
             return false;
         }
+
         array_pop($explodedUri);
         $explodedUri = implode("/", $explodedUri);
+        
         if(trim($this->route, "/") == $explodedUri) {
-            return $this->execute();
+            return true;
         }
     }
 }
