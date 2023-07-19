@@ -14,18 +14,20 @@
             </div>
             <div class="form-control">
                 <label for="tags">Tags:</label>
-                <select name="tags" id="" multiple required>
+                <select name="tags[]" multiple required>
                     <option value="">Selecione</option>
-                    <option value="1">Tag A</option>
-                    <option value="2">Tag B</option>
+                    <?php foreach($data['tags'] as $tag): ?>
+                        <option value="<?=$tag['id']?>"><?=$tag['name']?></option>
+                    <?php endforeach; ?>
                 </select>
             </div>
             <div class="form-control">
                 <label for="categories">Categorias:</label>
-                <select name="categories" id="" multiple required>
+                <select name="categories[]" multiple required>
                     <option value="">Selecione</option>
-                    <option value="1">Category A</option>
-                    <option value="2">Category B</option>
+                    <?php foreach($data['categories'] as $category): ?>
+                        <option value="<?=$category['id']?>"><?=$category['name']?></option>
+                    <?php endforeach; ?>
                 </select>
             </div>
             <div class="form-control">
