@@ -2,8 +2,6 @@
 
 namespace App\Model;
 
-use App\Model\Tag;
-
 class Post {
     private $id;
     private $title;
