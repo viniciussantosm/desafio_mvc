@@ -25,7 +25,9 @@ class Route {
             return $this->execute();
         }
 
-        $this->checkForEdit($uri);
+        if($this->checkForEdit($uri)) {
+            return false;
+        }
         
         if ($this->getNext()) {
             return $this->getNext()->handle($uri);
@@ -34,6 +36,7 @@ class Route {
         if($this->checkForStaticFile(ROOT . $uri)) {
             return false;
         }
+        var_dump($this->controller);
         
         throw new Exception("404");
     }
@@ -90,13 +93,12 @@ class Route {
     {
         $explodedUri = explode("/", trim($uri, "/"));
         if(!array_key_exists(1, $explodedUri)) {
-            return;
+            return false;
         }
-
+        
         if(!$explodedUri[1] == "edit") {
-            return;
+            return false;
         }
-
         array_pop($explodedUri);
         $explodedUri = implode("/", $explodedUri);
         if(trim($this->route, "/") == $explodedUri) {
