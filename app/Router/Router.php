@@ -2,8 +2,8 @@
 
 namespace App\Router;
 
-use App\Controller\Controller;
-use App\Model\Command\Route;
+use App\Controller\ControllerAbstract;
+use App\Model\Route;
 
 class Router {
 
@@ -31,7 +31,7 @@ class Router {
         return $firstRoute->handle($_SERVER["REQUEST_URI"] ?: '/');
     }
 
-    public function dispatch(Controller $controller, $action) {
+    public function dispatch(ControllerAbstract $controller, $action) {
 
         $controller->$action();
     }
