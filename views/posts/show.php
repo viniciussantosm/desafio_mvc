@@ -1,3 +1,6 @@
+<?php
+use App\Model\Session;
+?>
 <div class="container">
     <div class="title-container">
         <h1><?= $data["post"]["title"] ?></h1>
@@ -24,29 +27,25 @@
             </div>
             <div class="comment-input-container">
                 <h2>Comentários</h2>
-                <form action="http://<?=$_SERVER["HTTP_HOST"]?>/comments/store/?id=<?=$data["post"]["id"]?>" method="POST">
+                <form action="http://<?=$_SERVER["HTTP_HOST"]?>/comments/store/?id_post=<?=$data["post"]["id"]?>" method="POST">
                     <textarea name="comment" id="show-comment" rows="6" maxlength="450" required></textarea>
                     <button id="show-btn">Enviar</button>
                 </form>
             </div>
             <div class="post-show-comments-container">
                 <div class="show-comment">
-                    <div class="show-comment-text">
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus rem quo autem perspiciatis facilis, delectus, odio et nam explicabo veritatis voluptates! Aliquid doloremque repellat praesentium architecto quod sint possimus laudantium.</p>
-                        <p class="show-comment-info"><span class="show-author">Joao Carlos</span> - 19/07/2023 às 18:00</p>
-                    </div>
-                    <div class="show-comment-text">
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus rem quo autem perspiciatis facilis, delectus, odio et nam explicabo veritatis voluptates! Aliquid doloremque repellat praesentium architecto quod sint possimus laudantium.</p>
-                        <p class="show-comment-info"><span class="show-author">Joao Carlos</span> - 19/07/2023 às 18:00</p>
-                    </div>
-                    <div class="show-comment-text">
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus rem quo autem perspiciatis facilis, delectus, odio et nam explicabo veritatis voluptates! Aliquid doloremque repellat praesentium architecto quod sint possimus laudantium.</p>
-                        <p class="show-comment-info"><span class="show-author">Joao Carlos</span> - 19/07/2023 às 18:00</p>
-                    </div>
-                    <div class="show-comment-text">
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus rem quo autem perspiciatis facilis, delectus, odio et nam explicabo veritatis voluptates! Aliquid doloremque repellat praesentium architecto quod sint possimus laudantium.</p>
-                        <p class="show-comment-info"><span class="show-author">Joao Carlos</span> - 19/07/2023 às 18:00</p>
-                    </div>
+                    <?php foreach($data["comments"] as $comment): ?>
+                        <div class="show-comment-text">
+                            <p><?=$comment["text"]?></p>
+                            <p class="show-comment-info"><span class="show-author"><?=$comment["name"]?></span> - <?=$comment["created_at"]?></p>
+                            <?php if($comment["id_user"] == Session::getUserId()):?>
+                                <div class="comment-action-btns">
+                                    <a href="http://<?=$_SERVER["HTTP_HOST"]?>/comments/edit/?id=<?=$comment["id_comment"]?>" class="comment-edit-btn">E</a>
+                                    <a href="http://<?=$_SERVER["HTTP_HOST"]?>/comments/edit/?id=<?=$comment["id_comment"]?>" class="comment-delete-btn">D</a>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                    <?php endforeach; ?>
                 </div>
             </div>
         </div>
