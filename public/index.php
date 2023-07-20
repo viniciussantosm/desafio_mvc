@@ -62,4 +62,3 @@ $router->addRoute("/dashboard/tags", \App\Controller\Dashboard\TagsDashControlle
 $router->addRoute("/comments/store", \App\Controller\Comments\StoreController::class);
 
 $router->handle();
-return;
