@@ -12,7 +12,7 @@ class StoreController extends ControllerAbstract {
     {
         if(!Session::isLoggedIn()) {
             Session::setMessage("error", "Você precisa estar logado para postar comentários!");
-            return Router::redirect('/posts/index');
+            return Router::redirect('/auth/index');
         }
         $params = $this->getParams();
         $params["id_user"] = Session::getUserId();
@@ -25,7 +25,5 @@ class StoreController extends ControllerAbstract {
         }
         Session::setMessage("success", "Comentário criado com sucesso");
         Router::redirect("/posts/show/?id={$params['id_post']}");
-        // $post = $this->getPost($params['id']);
-        // return $this->view('posts.show', $post);
     }
 }

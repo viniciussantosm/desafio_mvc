@@ -15,9 +15,16 @@ class UpdateController extends ControllerAbstract {
             if(!Session::getMessage()) {
                 Session::setMessage("error", "Ocorreu um erro, tente novamente");
             };
-            return $this->view("dashboard.tags", $_POST);
+            $tags = $this->getTags();
+            return $this->view("dashboard.tags", $tags);
         }
         Session::setMessage("success", "Tag atualizada com sucesso");
         Router::redirect("/dashboard/tags");
+    }
+
+    public function getTags()
+    {
+        $tagRepo = new TagsRepository();
+        return $tagRepo->findAll();
     }
 }

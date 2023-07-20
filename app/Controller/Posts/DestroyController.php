@@ -13,8 +13,14 @@ class DestroyController extends ControllerAbstract {
 
     public function execute() {
         $data = $this->getParams();
-        $postsRepo = new PostsRepository();
+        $post = $this->getPost($data["id"]);
 
+        if($post["id_user"] !== Session::getUserId()) {
+            Session::setMessage("error", "Você não tem permissão para excluir este post!");
+            return Router::redirect('/posts/index');
+        }
+        
+        $postsRepo = new PostsRepository();
         if(!$postsRepo->delete($data["id"])) {
             if(!Session::getMessage()) {
                 Session::setMessage("error", "Erro ao excluir post"); 
@@ -35,4 +41,9 @@ class DestroyController extends ControllerAbstract {
         return $user;
     }
 
+    public function getPost($id)
+    {
+        $post = new PostsRepository();
+        return $post->findById($id);
+    }
 }

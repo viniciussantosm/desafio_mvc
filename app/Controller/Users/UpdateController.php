@@ -11,7 +11,7 @@ class UpdateController extends ControllerAbstract {
     public function execute()
     {
         $userRepo = new UserRepository();
-        if(!$userRepo->update($_POST)) {
+        if(!$userRepo->save($_POST)) {
             if(!Session::getMessage()) {
                 Session::setMessage("error", "Erro ao atualizar dados"); 
             };

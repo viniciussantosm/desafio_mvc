@@ -30,11 +30,13 @@ abstract class ControllerAbstract implements Command {
     public function view($viewName, $data = [])
     {
         $requiredViewName = str_replace(".", "/", $viewName);
+        $server["host"] = HTTP_HOST;
         return [
             require_once(dirname(ROOT) . "/views/header.php"),
             require_once(dirname(ROOT) . "/views/$requiredViewName.php"),
             require_once(dirname(ROOT) . "/views/footer.php"),
             $data,
+            $server
         ];
     }
 

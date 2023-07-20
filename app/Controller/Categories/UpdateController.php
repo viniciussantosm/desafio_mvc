@@ -15,9 +15,16 @@ class UpdateController extends ControllerAbstract {
             if(!Session::getMessage()) {
                 Session::setMessage("error", "Ocorreu um erro, tente novamente");
             };
-            return $this->view("dashboard.categories", $_POST);
+            $categories = $this->getCategories();
+            return $this->view("dashboard.categories", $categories);
         }
         Session::setMessage("success", "Categoria atualizada com sucesso");
         Router::redirect("/dashboard/categories");
+    }
+
+    public function getCategories()
+    {
+        $categoriesRepo = new CategoriesRepository();
+        return $categoriesRepo->findAll();
     }
 }

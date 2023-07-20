@@ -3,17 +3,29 @@
 
 namespace App\Controller\Posts;
 use App\Controller\ControllerAbstract;
+use App\Model\Session;
 use App\Repository\CategoriesRepository;
 use App\Repository\PostsRepository;
 use App\Repository\TagsRepository;
 use App\Repository\UserRepository;
+use App\Router\Router;
 
 class EditController extends ControllerAbstract {
 
 
     public function execute() {
+        if(!Session::isLoggedIn()) {
+            Session::setMessage("error", "Você precisa estar logado para editar posts!");
+            return Router::redirect('/auth/index');
+        }
         $data = $this->getParams();
         $post = $this->getPost($data["id"]);
+
+        if(!$this->isOwner($post['id_user'], Session::getUserId())) {
+            Session::setMessage("error", "Você não tem permissão para editar este post!");
+            return Router::redirect('/posts/index');
+        }
+
         $tagSelect["tags"] = $this->createSelect($this->getTags(), $this->getTagsByPostId($data["id"]));
         $categorySelect["categories"] = $this->createSelect($this->getCategories(), $this->getCategoriesByPostId($data["id"]));
         $data = array_merge($post, $tagSelect, $categorySelect);
@@ -69,5 +81,12 @@ class EditController extends ControllerAbstract {
             $select .= '<option value="' . $value["id"] . '"' . $checkForSelected . '">' . $value["name"] . '</option>';
         }
         return $select;
+    }
+
+    public function isOwner($idAuthor, $idUser)
+    {
+        if($idAuthor == $idUser) {
+            return true;
+        }
     }
 }

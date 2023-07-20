@@ -11,14 +11,17 @@ class EditController extends ControllerAbstract {
     public function execute()
     {
         if(!Session::isLoggedIn()) {
-            Router::redirect("/posts/index");
+            Session::setMessage("error", "Você precisa estar logado para editar tags!");
+            return Router::redirect('/auth/index');
         }
         
         $params = $this->getParams();
         $tagsRepo = new TagsRepository();
         $tagData = $tagsRepo->findById($params["id"]);
-        // var_dump($userData);
+        if(!$tagData) {
+            Session::setMessage("error", "Tag não encontrada");
+            $tagData = [];
+        }
         return $this->view("tags.edit", $tagData);
-        // return $this->view("users.edit");
     }
 }
