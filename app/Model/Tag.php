@@ -6,11 +6,6 @@ class Tag {
     private $id;
     private $tagName;
 
-    public function __construct($id, $tagName)
-    {
-        
-    }
-
     public function getId()
     {
         return $this->id;

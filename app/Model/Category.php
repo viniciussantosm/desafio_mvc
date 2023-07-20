@@ -6,10 +6,6 @@ class Category
 {
     private $id;
     private $name;
-    
-    public function __construct()
-    {
-    }
 
     public function getId():string
     {
