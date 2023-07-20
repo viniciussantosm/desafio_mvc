@@ -9,14 +9,6 @@ class Session {
     private static $isLoggedIn;
     private static $instance = null;
 
-    private function __construct($message = null, $name = null, $userId = null)
-    {
-        self::$message = $_SESSION["message"] ?? null;
-        self::$name = $_SESSION["name"] ?? null;
-        self::$userId = $_SESSION["userId"] ?? null;
-        self::$isLoggedIn = $_SESSION["isLoggedIn"] ?? null;
-    }
-
     public static function getInstance()
     {
         if(!self::$instance) {
@@ -27,25 +19,25 @@ class Session {
 
     public static function getMessage()
     {
-        // return self::$message;
+        // return self::$message ?? null;
         return $_SESSION["message"] ?? null;
     }
 
     public static function getName()
     {
-        // return self::$name;
+        // return self::$name ?? null;
         return $_SESSION["name"] ?? null;
     }
 
     public static function getUserId()
     {
-        // return self::$userId;
+        // return self::$userId ?? null;
         return $_SESSION["userId"] ?? null;
     }
 
     public static function isLoggedIn()
     {
-        // return self::$isLoggedIn;
+        // return self::$isLoggedIn ?? null;
         return $_SESSION["isLoggedIn"] ?? null;
     }
 
