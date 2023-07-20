@@ -2,7 +2,7 @@
 
 namespace App\Model\UserLevels;
 
-use src\Model\User;
+use App\Model\User;
 
 class Admin extends User {
     public function getType()
