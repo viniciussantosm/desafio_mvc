@@ -10,7 +10,7 @@ body {
     width: 75%;
     margin: 0 auto;
     background-color: #eeeeeeb1;
-    min-height: 400px;
+    min-height: 600px;
 }
 
 nav {
@@ -615,6 +615,7 @@ footer {
 .flash-message {
     width: 100%;
     padding-top: 1em;
+    text-align: center;
 }
 
 .flash-message.error p {
@@ -753,7 +754,6 @@ footer {
 
 .dashboard-item {
     border: 1px solid #ddd;
-    padding: .5em 1em;
     border-radius: 10px;
     background-color: rgb(20, 180, 243);
     margin: .3em;
@@ -764,8 +764,14 @@ footer {
 }
 
 .dashboard-item a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: .5em 1em;
     text-decoration: none;
     color: #fff;
+    height: 100%;
 }
 
 .dashboard-item:hover {
