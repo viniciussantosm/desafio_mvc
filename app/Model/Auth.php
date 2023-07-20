@@ -5,11 +5,6 @@ namespace App\Model;
 use App\Repository\UserRepository;
 
 class Auth {
-
-
-    public function __construct() {
-    }
-
     public function login($email, $password) {
         $userRepo = new UserRepository();
         $userData = $userRepo->findByEmail($email);
@@ -19,10 +14,6 @@ class Auth {
         if(!$this->validatePasswords($userData, $password, $userRepo)) {
             return false;
         };
-        // session_start();
-        // $_SESSION['userId'] = $userData['id'];
-        // $_SESSION['name'] = explode(" ", $userData['name'])[0];
-        // $_SESSION['isLoggedIn'] = true;
         Session::setUserId($userData['id']);
         Session::setName(explode(" ", $userData['name'])[0]);
         Session::setLoggedIn(true);
@@ -37,7 +28,7 @@ class Auth {
 
     public function register($data) {
         $userRepo = new UserRepository();
-        if(!$userRepo->create($data)) {
+        if(!$userRepo->save($data)) {
             return false;
         }
         return true;
@@ -45,14 +36,16 @@ class Auth {
 
     public function validatePasswords($userData, $password, UserRepository $userRepo)
     {
-        if(password_verify($password, $userData['password'])) {
-            if(password_needs_rehash($userData['password'], PASSWORD_ARGON2ID)) {
-                $newHash = password_hash($userData['password'], PASSWORD_ARGON2ID);
-                $userData['password'] = $newHash;
-                $userRepo->update($userData);
-            }
-            return true;
+        if(!password_verify($password, $userData['password'])) {
+            return false;
         }
-        return false;
+
+        if(password_needs_rehash($userData['password'], PASSWORD_DEFAULT)) {
+            $newHash = password_hash($userData['password'], PASSWORD_DEFAULT);
+            $userData['password'] = $newHash;
+            $userRepo->saveRehashedPassword($userData);
+        }
+
+        return true;
     }
 }
