@@ -271,12 +271,17 @@ footer {
     box-sizing: border-box;
 }
 
+.post-show-comments-container {
+    width: 100%;
+}
+
 .show-comment-text {
     padding: 0.1em 1em;
     margin: 1em;
     background-color: #eee;
     text-align: justify;
     border-radius: 5px;
+    position: relative;
 }
 
 .show-comment-text:nth-child(even) {
@@ -370,6 +375,57 @@ footer {
     color: #fff;
     background-color: #666;
     border-color: #666;
+}
+
+.comment-action-btns {
+    position: absolute;
+    right: 2em;
+    top: 0;
+    bottom: 0;
+    margin: auto 0;
+    height: 21.15px;
+}
+
+.comment-edit-btn,
+.comment-delete-btn {
+    text-transform: uppercase;
+    text-decoration: none;
+    font-size: .9rem;
+    padding: .5em 1em;
+    border-radius: 5px;
+    width: 40%;
+    text-align: center;
+    opacity: 0;
+}
+
+.show-comment-text:hover .comment-edit-btn,
+.show-comment-text:hover .comment-delete-btn {
+    opacity: 1;
+    transition: all .3s ease-out;
+}
+
+.comment-edit-btn {
+    color: #fff;
+    border: 2px solid rgb(20, 180, 243);
+    background-color: rgb(20, 180, 243);
+}
+
+.comment-delete-btn {
+    color: #fff;
+    border: 2px solid rgb(243, 20, 57);
+    background-color: rgb(243, 20, 57);
+}
+
+.comment-delete-btn:hover {
+    transition: all .2s ease-out;
+    color: rgb(241, 85, 111);
+    border: 2px solid rgb(241, 85, 111);
+}
+
+.comment-edit-btn:hover {
+    transition: all .2s ease-out;
+    color: rgb(123, 209, 244);
+    border: 2px solid rgb(123, 209, 244);
 }
 
 
