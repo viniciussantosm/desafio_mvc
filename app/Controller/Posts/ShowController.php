@@ -3,6 +3,7 @@
 namespace App\Controller\Posts;
 use App\Controller\ControllerAbstract;
 use App\Repository\CategoriesRepository;
+use App\Repository\CommentsRepository;
 use App\Repository\PostsRepository;
 use App\Repository\TagsRepository;
 use App\Repository\UserRepository;
@@ -36,6 +37,7 @@ class ShowController extends ControllerAbstract {
         $data["post"] = $postsRepo->findById($id);
         $data["tags"] = $this->prepareTags($this->getTags($id));
         $data["categories"] = $this->prepareCategories($this->getCategories($id));
+        $data["comments"] = $this->getComments($id);
         
         return $data;
     }
@@ -44,6 +46,12 @@ class ShowController extends ControllerAbstract {
     {
         $tagsRepo = new TagsRepository();
         return $tagsRepo->findByPostId($id);
+    }
+
+    public function getComments($id)
+    {
+        $commentsRepo = new CommentsRepository();
+        return $commentsRepo->findByPostId($id);
     }
 
     public function getCategories($id)

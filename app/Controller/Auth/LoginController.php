@@ -5,7 +5,6 @@ namespace App\Controller\Auth;
 use App\Controller\ControllerAbstract;
 use App\Model\Auth;
 use App\Repository\UserRepository;
-use App\Router\Router;
 
 class LoginController extends ControllerAbstract {
 

@@ -2,7 +2,6 @@
 
 namespace App\Controller\Categories;
 use App\Controller\ControllerAbstract;
-use App\Model\Category;
 use App\Model\Session;
 use App\Repository\CategoriesRepository;
 use App\Router\Router;
