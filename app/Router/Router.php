@@ -2,14 +2,7 @@
 
 namespace App\Router;
 
-use App\Controller\{
-    AuthController,
-    CategoryController,
-    Controller,
-    PostController,
-    UserController,
-    TagController,
-};
+use App\Controller\Controller;
 use App\Model\Command\Route;
 
 class Router {
