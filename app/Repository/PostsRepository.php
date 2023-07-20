@@ -15,38 +15,38 @@ class PostsRepository extends Repository {
     public function findAll()
     {
         return $this->queryBuilder->selectWithJoin(
-                                "posts",
-                                "bloggero.posts.id AS post_id,
-                                bloggero.posts.title AS post_title,
-                                bloggero.users.name AS post_user,
-                                DATE_FORMAT(bloggero.posts.created_at, \"%d/%m/%Y\") AS post_created_at,
-                                bloggero.posts_images.img_path AS img_path",
-                                "INNER JOIN bloggero.posts_images ON bloggero.posts_images.id_post = bloggero.posts.id
-                                INNER JOIN bloggero.users ON bloggero.users.id = bloggero.posts.id_user"
+                                "post",
+                                "post.id AS post_id,
+                                post.title AS post_title,
+                                user.name AS post_user,
+                                DATE_FORMAT(post.created_at, \"%d/%m/%Y\") AS post_created_at,
+                                post_image.img_path AS img_path",
+                                "INNER JOIN post_image ON post_image.id_post = post.id
+                                INNER JOIN user ON user.id = post.id_user"
                             );
     }
 
     public function findById($id)
     {
         return $this->queryBuilder->selectWithJoin(
-                                "posts",
-                                "posts.id, posts.title, posts.text, DATE_FORMAT(posts.created_at, \"%d/%m/%Y\") AS created_at, users.name, posts_images.img_path",
-                                "LEFT JOIN users ON users.id = posts.id_user LEFT JOIN posts_images ON posts_images.id_post = posts.id",
-                                "posts.id = $id")[0];
+                                "post",
+                                "post.id, post.title, post.text, DATE_FORMAT(post.created_at, \"%d/%m/%Y\") AS created_at, id_user, user.name, post_image.img_path",
+                                "LEFT JOIN user ON user.id = post.id_user LEFT JOIN post_image ON post_image.id_post = post.id",
+                                "post.id = $id")[0];
     }
 
     public function findByUserId($id)
     {
-        $joins = "INNER JOIN bloggero.posts_images ON bloggero.posts_images.id_post = bloggero.posts.id
-        INNER JOIN bloggero.users ON bloggero.users.id = bloggero.posts.id_user";
+        $joins = "INNER JOIN post_image ON post_image.id_post = post.id
+        INNER JOIN user ON user.id = post.id_user";
 
         return $this->queryBuilder->selectWithJoin(
-                            "posts",
-                            "bloggero.posts.id AS post_id,
-                            bloggero.posts.title AS post_title,
-                            bloggero.users.name AS post_user,
-                            DATE_FORMAT(bloggero.posts.created_at, \"%d/%m/%Y\") AS post_created_at,
-                            bloggero.posts_images.img_path AS img_path",
+                            "post",
+                            "post.id AS post_id,
+                            post.title AS post_title,
+                            user.name AS post_user,
+                            DATE_FORMAT(post.created_at, \"%d/%m/%Y\") AS post_created_at,
+                            post_image.img_path AS img_path",
                             $joins,
                             "id_user = $id"
                         );
@@ -54,18 +54,18 @@ class PostsRepository extends Repository {
 
     public function findLastInsertByUserId($id)
     {
-        return $this->queryBuilder->selectQuery("posts", "*", "id_user = $id ORDER BY created_at DESC LIMIT 1");
+        return $this->queryBuilder->selectQuery("post", "*", "id_user = $id ORDER BY created_at DESC LIMIT 1");
     }
 
     public function findPostImages($id)
     {
-        return $this->queryBuilder->selectQuery("posts_images", "*", "id_post = $id");
+        return $this->queryBuilder->selectQuery("post_image", "*", "id_post = $id");
     }
 
     public function delete($id)
     {
         $this->deletePostImages($id);
-        return $this->queryBuilder->deleteQuery("posts", "id = {$id}");
+        return $this->queryBuilder->deleteQuery("post", "id = {$id}");
     }
 
     public function deletePostImages($id)
@@ -74,18 +74,18 @@ class PostsRepository extends Repository {
 
         foreach($images as $image) {
             unlink(ROOT . $image["img_path"]);
-            $this->queryBuilder->deleteQuery("posts_images", "id = {$image['id']}");
+            $this->queryBuilder->deleteQuery("post_image", "id = {$image['id']}");
         }
     }
 
     public function deletePostTags($id)
     {
-        $this->queryBuilder->deleteQuery("posts_tags", "id_post = {$id}");
+        $this->queryBuilder->deleteQuery("post_tag", "id_post = {$id}");
     }
 
     public function deletePostCategories($id)
     { 
-        $this->queryBuilder->deleteQuery("posts_categories", "id_post = {$id}");
+        $this->queryBuilder->deleteQuery("post_category", "id_post = {$id}");
     }
 
     public function save($data)
@@ -96,32 +96,32 @@ class PostsRepository extends Repository {
         }
         
         $fileName = uniqid() . basename($data["postImages"]["full_path"][0]);
-        $uploadPath = "/uploads/posts/" . $fileName;
+        $uploadPath = "/uploads/post/" . $fileName;
         if(!move_uploaded_file($data["postImages"]["tmp_name"][0], ROOT . $uploadPath)) {
             return false;
         }
 
         if(array_key_exists("id", $data)) {
-            $this->queryBuilder->updateQuery("posts", ["title", "text"], [$data['title'], $data['text']], "id = {$data['id']}");
+            $this->queryBuilder->updateQuery("post", ["title", "text"], [$data['title'], $data['text']], "id = {$data['id']}");
             
             $this->deletePostImages($data["id"]);
-            $this->queryBuilder->insertQuery("posts_images", ["id_post", "img_path"], [$data["id"], $uploadPath]);
+            $this->queryBuilder->insertQuery("post_image", ["id_post", "img_path"], [$data["id"], $uploadPath]);
 
             $this->deletePostCategories($data["id"]);
             foreach($data["categories"] as $category) {
-                $this->queryBuilder->insertQuery("posts_categories", ["id_post", "id_category"], [$data["id"], $category]);
+                $this->queryBuilder->insertQuery("post_category", ["id_post", "id_category"], [$data["id"], $category]);
             }
 
             $this->deletePostTags($data["id"]);
             foreach($data["tags"] as $tag) {
-                $this->queryBuilder->insertQuery("posts_tags", ["id_post", "id_tag"], [$data["id"], $tag]);
+                $this->queryBuilder->insertQuery("post_tag", ["id_post", "id_tag"], [$data["id"], $tag]);
             }
 
             return true;
         }
 
         $rowCount = $this->queryBuilder->insertQuery(
-            "posts", 
+            "post", 
             ["title", "text", "id_user"],
             [$data['title'], $data['description'], SESSION::getUserId()]
         );
@@ -131,12 +131,12 @@ class PostsRepository extends Repository {
         }
 
         $lastPost = $this->findLastInsertByUserId(Session::getUserId());
-        $this->queryBuilder->insertQuery("posts_images", ["id_post", "img_path"], [$lastPost[0]["id"], $uploadPath]);
+        $this->queryBuilder->insertQuery("post_image", ["id_post", "img_path"], [$lastPost[0]["id"], $uploadPath]);
         foreach($data["tags"] as $tag) {
-            $this->queryBuilder->insertQuery("posts_tags", ["id_post", "id_tag"], [$lastPost[0]["id"], $tag]);
+            $this->queryBuilder->insertQuery("post_tag", ["id_post", "id_tag"], [$lastPost[0]["id"], $tag]);
         }
         foreach($data["categories"] as $category) {
-            $this->queryBuilder->insertQuery("posts_categories", ["id_post", "id_category"], [$lastPost[0]["id"], $category]);
+            $this->queryBuilder->insertQuery("post_category", ["id_post", "id_category"], [$lastPost[0]["id"], $category]);
         }
 
         return true;

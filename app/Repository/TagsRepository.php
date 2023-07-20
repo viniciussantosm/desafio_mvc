@@ -13,20 +13,30 @@ class TagsRepository extends Repository {
 
     public function findAll()
     {
-        return $this->queryBuilder->selectQuery("tags", "id, name, DATE_FORMAT(created_at, \"%d/%m/%Y\") AS created_at");
+        return $this->queryBuilder->selectQuery("tag", "id, name, DATE_FORMAT(created_at, \"%d/%m/%Y\") AS created_at");
     }
 
     public function findById($id)
     {
-        return $this->queryBuilder->selectQuery("tags", "*", "id = $id")[0];
+        $tag = $this->queryBuilder->selectQuery("tag", "*", "id = $id");
+        
+        if(!is_array($tag)) {
+            return false;
+        }
+
+        if(array_key_exists(0, $tag)) {
+            return $tag[0];
+        }
+
+        return false;
     }
 
     public function findByPostId($id)
     {
         return $this->queryBuilder->selectWithJoin(
-                                "posts_tags", 
+                                "post_tag", 
                                 "*", 
-                                "INNER JOIN bloggero.tags ON bloggero.posts_tags.id_tag = bloggero.tags.id",
+                                "INNER JOIN tag ON post_tag.id_tag = tag.id",
                                 "id_post = $id"
                             );
     }
@@ -34,24 +44,16 @@ class TagsRepository extends Repository {
     public function findPostsByTagId($id)
     {
         return $this->queryBuilder->selectWithJoin(
-                                    "posts_tags", 
-                                    "posts.id, posts.title, posts.text, DATE_FORMAT(posts.created_at, \"%d/%m/%Y\") AS created_at, users.name AS user, tags.name AS tag, posts_images.img_path", 
-                                    "INNER JOIN posts ON posts.id = posts_tags.id_post LEFT JOIN posts_images ON posts_images.id_post = posts.id LEFT JOIN users ON users.id = posts.id_user LEFT JOIN tags ON tags.id = posts_tags.id_tag",
-                                    "id_tag = $id ORDER BY posts.created_at DESC"
+                                    "post_tag", 
+                                    "post.id, post.title, post.text, DATE_FORMAT(post.created_at, \"%d/%m/%Y\") AS created_at, user.name AS user, tag.name AS tag, post_image.img_path", 
+                                    "INNER JOIN post ON post.id = post_tag.id_post LEFT JOIN post_image ON post_image.id_post = post.id LEFT JOIN user ON user.id = post.id_user LEFT JOIN tag ON tag.id = post_tag.id_tag",
+                                    "id_tag = $id ORDER BY post.created_at DESC"
                                 );
-    }
-
-    public function create($data)
-    {
-    }
-
-    public function update($data)
-    {
     }
 
     public function delete($id)
     {
-        return $this->queryBuilder->deleteQuery("tags", "id = {$id}");
+        return $this->queryBuilder->deleteQuery("tag", "id = {$id}");
     }
 
     public function save($data)
@@ -59,11 +61,12 @@ class TagsRepository extends Repository {
         $data["name"] = $this->sanitizeTag($data["name"]);
         
         if(array_key_exists("id", $data)) {
-            return $this->queryBuilder->updateQuery("tags", ["name"], [$data['name']], "id = {$data['id']}");
+            $this->queryBuilder->updateQuery("tag", ["name"], [$data['name']], "id = {$data['id']}");
+            return true;
         }
 
         return $this->queryBuilder->insertQuery(
-            "tags", 
+            "tag", 
             ["name"], 
             [$data['name']]
         );

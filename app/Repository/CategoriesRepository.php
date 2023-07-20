@@ -13,20 +13,30 @@ class CategoriesRepository extends Repository {
 
     public function findAll()
     {
-        return $this->queryBuilder->selectQuery("categories", "id, name, DATE_FORMAT(created_at, \"%d/%m/%Y\") AS created_at");
+        return $this->queryBuilder->selectQuery("category", "id, name, DATE_FORMAT(created_at, \"%d/%m/%Y\") AS created_at");
     }
 
     public function findById($id)
     {
-        return $this->queryBuilder->selectQuery("categories", "*", "id = $id")[0];
+        $category = $this->queryBuilder->selectQuery("category", "*", "id = $id");
+
+        if(!is_array($category)) {
+            return false;
+        }
+
+        if(array_key_exists(0, $category)) {
+            return $category[0];
+        }
+
+        return false;
     }
 
     public function findByPostId($id)
     {
         return $this->queryBuilder->selectWithJoin(
-                                    "posts_categories", 
+                                    "post_category", 
                                     "*", 
-                                    "INNER JOIN bloggero.categories ON bloggero.posts_categories.id_category = bloggero.categories.id",
+                                    "INNER JOIN category ON post_category.id_category = category.id",
                                     "id_post = $id"
                                 );
     }
@@ -34,34 +44,27 @@ class CategoriesRepository extends Repository {
     public function findPostsByCategoryId($id)
     {
         return $this->queryBuilder->selectWithJoin(
-                                    "posts_categories", 
-                                    "posts.id, posts.title, posts.text, DATE_FORMAT(posts.created_at, \"%d/%m/%Y\") AS created_at, users.name AS user, categories.name AS category, posts_images.img_path", 
-                                    "INNER JOIN posts ON posts.id = posts_categories.id_post LEFT JOIN posts_images ON posts_images.id_post = posts.id LEFT JOIN users ON users.id = posts.id_user LEFT JOIN categories ON categories.id = posts_categories.id_category",
-                                    "id_category = $id ORDER BY posts.created_at DESC"
+                                    "post_category", 
+                                    "post.id, post.title, post.text, DATE_FORMAT(post.created_at, \"%d/%m/%Y\") AS created_at, user.name AS user, category.name AS category, post_image.img_path", 
+                                    "INNER JOIN post ON post.id = post_category.id_post LEFT JOIN post_image ON post_image.id_post = post.id LEFT JOIN user ON user.id = post.id_user LEFT JOIN category ON category.id = post_category.id_category",
+                                    "id_category = $id ORDER BY post.created_at DESC"
                                 );
-    }
-
-    public function create($data)
-    {
-    }
-
-    public function update($data)
-    {
     }
 
     public function delete($id)
     {
-        return $this->queryBuilder->deleteQuery("categories", "id = {$id}");
+        return $this->queryBuilder->deleteQuery("category", "id = {$id}");
     }
 
     public function save($data)
     {
         if(array_key_exists("id", $data)) {
-            return $this->queryBuilder->updateQuery("categories", ["name"], [$data['name']], "id = {$data['id']}");
+            $this->queryBuilder->updateQuery("category", ["name"], [$data['name']], "id = {$data['id']}");
+            return true;
         }
         
         return $this->queryBuilder->insertQuery(
-            "categories", 
+            "category", 
             ["name"], 
             [$data['name']]
         );
