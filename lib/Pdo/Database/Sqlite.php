@@ -4,7 +4,6 @@ namespace Library\Pdo\Database;
 
 use Library\Pdo\DatabaseInterface;
 use PDO;
-use PDOException;
 
 class Sqlite implements DatabaseInterface {
 

@@ -1,7 +1,6 @@
 <?php
 
 namespace Library\Pdo\Querys;
-use Library\Pdo\Database\Mysql;
 
 class SqlQuery implements QueryInterface {
 

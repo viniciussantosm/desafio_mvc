@@ -18,9 +18,8 @@ class ConnectionAdapter {
             break;
             case 'sqlite':
                 $sqlite = new Sqlite("database.db", null, null, null);
-                var_dump($sqlite->getConn());
-                // $sqlQuery = new SqlQuery($sqlite);
-                // return $sqlQuery;
+                $sqlQuery = new SqlQuery($sqlite->getConn());
+                return $sqlQuery;
             break;
         }
     }
