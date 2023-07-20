@@ -26,7 +26,10 @@ class UserRepository extends Repository {
 
     public function findByEmail($email)
     {
-        return $this->queryBuilder->selectQuery("users", "*", "email = '$email'")[0];
+        $user = $this->queryBuilder->selectQuery("users", "*", "email = '$email'");
+        if(array_key_exists(0, $user)) {
+            return $user;
+        }
     }
 
     public function create($data)
@@ -34,13 +37,13 @@ class UserRepository extends Repository {
         if(!$this->dataVerify($data)) {
             return false;
         }
+
         $data['password'] = password_hash($data['password'], PASSWORD_ARGON2ID);
         $result = $this->queryBuilder->insertQuery("users", ["name", "email", "password"], [$data['name'], $data['email'], $data['password']]);
 
         if(!$result) {
             return false;
         }
-
         $user = $this->findByEmail($data['email']);
         Session::setUserId($user[0]['id']);
         Session::setName(explode(" ", $user[0]['name'])[0]);

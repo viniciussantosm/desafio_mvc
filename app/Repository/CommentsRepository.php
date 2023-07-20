@@ -11,15 +11,15 @@ class CommentsRepository extends Repository {
         $this->queryBuilder = $this->getQuery();
     }
 
-    // public function findAll()
-    // {
-    //     return $this->queryBuilder->selectWithJoin(
-    //                                     "posts_comments",
-    //                                     "id, DATE_FORMAT(created_at, \"%d/%m/%Y\") AS created_at",
-    //                                     "INNER JOIN users ON users.id = posts_comments",
-    //                                     "id_post = $id"
-    //                                 );
-    // }
+    public function findAll()
+    {
+        return $this->queryBuilder->selectWithJoin(
+                                        "posts_comments",
+                                        "id, DATE_FORMAT(created_at, \"%d/%m/%Y\") AS created_at",
+                                        "INNER JOIN users ON users.id = posts_comments",
+                                        "id_post = "
+                                    );
+    }
 
     public function findById($id)
     {
@@ -30,7 +30,7 @@ class CommentsRepository extends Repository {
     {
         return $this->queryBuilder->selectWithJoin(
                                     "posts_comments", 
-                                    "id, text, DATE_FORMAT(created_at, \"%d/%m/%Y\") AS created_at, id_user, users.name",
+                                    "posts_comments.id AS id_comment, text, DATE_FORMAT(posts_comments.created_at, \"%d/%m/%Y às %H:%i\") AS created_at, id_user, users.name",
                                     "LEFT JOIN users ON users.id = posts_comments.id_user",
                                     "id_post = $id"
                                 );
@@ -61,14 +61,15 @@ class CommentsRepository extends Repository {
 
     public function save($data)
     {
+        
         if(array_key_exists("id", $data)) {
             return $this->queryBuilder->updateQuery("comments", ["name"], [$data['name']], "id = {$data['id']}");
         }
         
         return $this->queryBuilder->insertQuery(
-            "comments", 
-            ["name"], 
-            [$data['name']]
+            "posts_comments", 
+            ["text, id_user, id_post"], 
+            [$data['comment'], $data["id_user"], $data["id_post"]]
         );
     }
 }
