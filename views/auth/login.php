@@ -3,7 +3,7 @@
         <h1>Login</h1>
     </div>
     <div class="login-form-container">
-        <form class="login-form" action="http://<?=$_SERVER["HTTP_HOST"]?>/auth/login" method="post">
+        <form class="login-form" action="http://<?=$server["host"]?>/auth/login" method="post">
             <div class="form-control">
                 <label for="email">Email:</label>
                 <input type="email" name="email" required>

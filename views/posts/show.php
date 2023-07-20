@@ -8,7 +8,7 @@ use App\Model\Session;
     <div class="posts-show-container">
         <div class="post-show">
             <div class="post-show-image-container">
-                <img src="http://<?=$_SERVER["HTTP_HOST"] . $data["post"]["img_path"]?>" alt="post 1 image">
+                <img src="http://<?=$server["host"] . $data["post"]["img_path"]?>" alt="post 1 image">
             </div>
             <div class="post-show-author">
                 <span class="author"><?=$data["post"]["name"]?></span>
@@ -27,7 +27,7 @@ use App\Model\Session;
             </div>
             <div class="comment-input-container">
                 <h2>Comentários</h2>
-                <form action="http://<?=$_SERVER["HTTP_HOST"]?>/comments/store/?id_post=<?=$data["post"]["id"]?>" method="POST">
+                <form action="http://<?=$server["host"]?>/comments/store/?id_post=<?=$data["post"]["id"]?>" method="POST">
                     <textarea name="comment" id="show-comment" rows="6" maxlength="450" required></textarea>
                     <button id="show-btn">Enviar</button>
                 </form>
@@ -40,8 +40,8 @@ use App\Model\Session;
                             <p class="show-comment-info"><span class="show-author"><?=$comment["name"]?></span> - <?=$comment["created_at"]?></p>
                             <?php if($comment["id_user"] == Session::getUserId()):?>
                                 <div class="comment-action-btns">
-                                    <a href="http://<?=$_SERVER["HTTP_HOST"]?>/comments/edit/?id=<?=$comment["id_comment"]?>" class="comment-edit-btn">E</a>
-                                    <a href="http://<?=$_SERVER["HTTP_HOST"]?>/comments/edit/?id=<?=$comment["id_comment"]?>" class="comment-delete-btn">D</a>
+                                    <a href="http://<?=$server["host"]?>/comments/edit/?id=<?=$comment["id_comment"]?>" class="comment-edit-btn">E</a>
+                                    <a href="http://<?=$server["host"]?>/comments/edit/?id=<?=$comment["id_comment"]?>" class="comment-delete-btn">D</a>
                                 </div>
                             <?php endif; ?>
                         </div>

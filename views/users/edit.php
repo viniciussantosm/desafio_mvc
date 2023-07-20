@@ -3,7 +3,7 @@
         <h1>Editar Dados</h1>
     </div>
     <div class="login-form-container">
-        <form class="login-form" action="http://<?=$_SERVER["HTTP_HOST"]?>/users/update" method="post">
+        <form class="login-form" action="http://<?=$server["host"]?>/users/update" method="post">
             <input type="hidden" value="<?=$data["id"]?>" name="id">
             <div class="form-control">
                 <label for="name">Nome:</label>

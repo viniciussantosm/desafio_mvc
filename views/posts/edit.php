@@ -3,7 +3,7 @@
         <h1>Editar post</h1>
     </div>
     <div class="form-container">
-        <form class="post-create-form" action="http://<?=$_SERVER["HTTP_HOST"]?>/posts/update/?id=<?=$data["id"]?>" method="post" enctype="multipart/form-data">
+        <form class="post-create-form" action="http://<?=$server["host"]?>/posts/update/?id=<?=$data["id"]?>" method="post" enctype="multipart/form-data">
             <div class="form-control">
                 <label for="title">Título:</label>
                 <input type="text" name="title" value="<?=$data["title"]?>" required>

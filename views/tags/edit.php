@@ -3,10 +3,10 @@
         <h1>Editar Dados</h1>
     </div>
     <div class="form-container">
-        <form class="post-create-form" action="http://<?=$_SERVER["HTTP_HOST"]?>/tags/update/?id=<?=$data["id"]?>" method="post">
+        <form class="post-create-form" action="http://<?=$server["host"]?>/tags/update/?id=<?=$data["id"] ?? null?>" method="post">
             <div class="form-control">
                 <label for="name">Nome:</label>
-                <input type="text" name="name" value="<?=trim($data["name"], "#") ?? ""?>" required>
+                <input type="text" name="name" value="<?=$data["name"] ?? null ?>" required>
             </div>
             <button class="btn" type="submit">Atualizar</button>
         </form>

@@ -6,10 +6,10 @@
     <div class="posts-container">
         <?php foreach($data as $post): ?>
             <div class="post">
-                <a href="http://<?=$_SERVER["HTTP_HOST"]?>/posts/show/?id=<?=$post["post_id"]?>" class="post-link">
+                <a href="http://<?=$server["host"]?>/posts/show/?id=<?=$post["post_id"]?>" class="post-link">
                     <div class="post-title"><?= $post["post_title"] ?></div>
                     <div class="post-image-container">
-                        <img src="http://<?=$_SERVER["HTTP_HOST"] . $post["img_path"]?>" alt="post 1 image">
+                        <img src="http://<?=$server["host"] . $post["img_path"]?>" alt="post 1 image">
                     </div>
                     <div class="post-author">
                         <span class="author"><?=$post["post_user"]?></span>

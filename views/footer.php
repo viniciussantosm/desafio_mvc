@@ -3,10 +3,10 @@
         <div class="main-footer-container">
             <div class="footer-links-container">
                 <ul>
-                    <li><a class="footer-link" href="http://<?=$_SERVER["HTTP_HOST"]?>/posts/index">Home</a></li>
-                    <li><a class="footer-link" href="http://<?=$_SERVER["HTTP_HOST"]?>/posts/create">Criar Post</a></li>
-                    <li><a class="footer-link" href="http://<?=$_SERVER["HTTP_HOST"]?>/categories/index">Categorias</a></li>
-                    <li><a class="footer-link" href="http://<?=$_SERVER["HTTP_HOST"]?>/tags/index">Tags</a></li>
+                    <li><a class="footer-link" href="http://<?=$server["host"]?>/posts/index">Home</a></li>
+                    <li><a class="footer-link" href="http://<?=$server["host"]?>/posts/create">Criar Post</a></li>
+                    <li><a class="footer-link" href="http://<?=$server["host"]?>/categories/index">Categorias</a></li>
+                    <li><a class="footer-link" href="http://<?=$server["host"]?>/tags/index">Tags</a></li>
                 </ul>
             </div>
             <div class="footer-company-info">

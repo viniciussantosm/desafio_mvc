@@ -8,7 +8,7 @@
                 <div class="post">
                     <div class="post-title"><?= $post["title"] ?></div>
                     <div class="post-image-container">
-                        <img src="http://<?=$_SERVER["HTTP_HOST"] . $post["img_path"]?>" alt="post 1 image">
+                        <img src="http://<?=$server["host"] . $post["img_path"]?>" alt="post 1 image">
                     </div>
                     <div class="post-author">
                         <span class="author"><?=$post["user"]?></span>
@@ -26,7 +26,7 @@
             <?php endforeach; ?>
         <?php else: ?>
             <p>Ainda não há posts cadastrados com esta tag. Que tal criar um?</p>
-            <a href="http://<?=$_SERVER["HTTP_HOST"]?>/posts/create" class="new-entity-link">Criar Post</a>
+            <a href="http://<?=$server["host"]?>/posts/create" class="new-entity-link">Criar Post</a>
         <?php endif; ?>
     </div>
 </div>

@@ -2,7 +2,7 @@
     <div class="category-title-container">
         <h1>Categorias</h1>
         <div class="new-category-link-container">
-            <a href="http://<?=$_SERVER["HTTP_HOST"]?>/categories/create" class="new-entity-link">Nova Categoria</a>
+            <a href="http://<?=$server["host"]?>/categories/create" class="new-entity-link">Nova Categoria</a>
         </div>
     </div>
     <div class="dashboard-table-container">
@@ -22,7 +22,7 @@
                             <td><?=$category["id"]?></td>
                             <td><?=$category["name"]?></td>
                             <td><?=$category["created_at"]?></td>
-                            <td><a href="http://<?=$_SERVER["HTTP_HOST"]?>/categories/edit/?id=<?=$category["id"]?>" class="dashboard-edit-button">E</a> <a href="http://<?=$_SERVER["HTTP_HOST"]?>/categories/destroy/?id=<?=$category["id"]?>" class="dashboard-delete-button">D</a></td>
+                            <td><a href="http://<?=$server["host"]?>/categories/edit/?id=<?=$category["id"]?>" class="dashboard-edit-button">E</a> <a href="http://<?=$server["host"]?>/categories/destroy/?id=<?=$category["id"]?>" class="dashboard-delete-button">D</a></td>
                         </tr>
                     <?php endforeach; ?>
                 <?php else: ?>

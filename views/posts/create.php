@@ -3,7 +3,7 @@
         <h1>Criar novo post</h1>
     </div>
     <div class="form-container">
-        <form class="post-create-form" action="http://<?=$_SERVER["HTTP_HOST"]?>/posts/store" method="post" enctype="multipart/form-data">
+        <form class="post-create-form" action="http://<?=$server["host"]?>/posts/store" method="post" enctype="multipart/form-data">
             <div class="form-control">
                 <label for="title">Título:</label>
                 <input type="text" name="title" required>

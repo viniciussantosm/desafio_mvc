@@ -2,7 +2,7 @@
     <div class="tag-title-container">
         <h1>Tags</h1>
         <div class="new-tag-link-container">
-            <a href="http://<?=$_SERVER["HTTP_HOST"]?>/tags/create" class="new-entity-link">Nova tag</a>
+            <a href="http://<?=$server["host"]?>/tags/create" class="new-entity-link">Nova tag</a>
         </div>
     </div>
     <div class="dashboard-table-container">
@@ -22,7 +22,7 @@
                             <td><?=$tag["id"]?></td>
                             <td><?=$tag["name"]?></td>
                             <td><?=$tag["created_at"]?></td>
-                            <td><a href="http://<?=$_SERVER["HTTP_HOST"]?>/tags/edit/?id=<?=$tag["id"]?>" class="dashboard-edit-button">E</a> <a href="http://<?=$_SERVER["HTTP_HOST"]?>/tags/destroy/?id=<?=$tag["id"]?>" class="dashboard-delete-button">D</a></td>
+                            <td><a href="http://<?=$server["host"]?>/tags/edit/?id=<?=$tag["id"]?>" class="dashboard-edit-button">E</a> <a href="http://<?=$server["host"]?>/tags/destroy/?id=<?=$tag["id"]?>" class="dashboard-delete-button">D</a></td>
                         </tr>
                     <?php endforeach; ?>
                 <?php else: ?>

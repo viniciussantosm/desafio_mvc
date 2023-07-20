@@ -11,7 +11,7 @@
             <div class="user-index-title-container">
                 <h1>Minhas postagens</h1>
                 <div class="new-post-link-container">
-                    <a href="http://<?=$_SERVER["HTTP_HOST"]?>/posts/create" class="new-entity-link">Novo post</a>
+                    <a href="http://<?=$server["host"]?>/posts/create" class="new-entity-link">Novo post</a>
                 </div>
             </div>
         </div>
@@ -19,11 +19,11 @@
             <?php foreach($data as $post): ?>
                 <div class="my-post">
                     <div class="my-post-image-container">
-                        <img src="http://<?=$_SERVER["HTTP_HOST"] . $post["img_path"]?>" alt="">
+                        <img src="http://<?=$server["host"] . $post["img_path"]?>" alt="">
                     </div>
                     <div class="my-post-actions">
-                        <a href="http://<?=$_SERVER["HTTP_HOST"]?>/posts/edit/?id=<?=$post["post_id"]?>" class="post-edit-button">Editar</a>
-                        <a href="http://<?=$_SERVER["HTTP_HOST"]?>/posts/destroy/?id=<?=$post["post_id"]?>" class="post-delete-button">Excluir</a>
+                        <a href="http://<?=$server["host"]?>/posts/edit/?id=<?=$post["post_id"]?>" class="post-edit-button">Editar</a>
+                        <a href="http://<?=$server["host"]?>/posts/destroy/?id=<?=$post["post_id"]?>" class="post-delete-button">Excluir</a>
                     </div>
                 </div>
             <?php endforeach; ?>
