@@ -2,13 +2,10 @@
 
 namespace App\Model;
 
-use App\Model\User;
 use App\Repository\UserRepository;
-use App\Router\Router;
 
 class Auth {
 
-    private User $user;
 
     public function __construct() {
     }
