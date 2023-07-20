@@ -3,10 +3,10 @@
     "type": "project",
     "autoload": {
         "psr-4": {
-            "src\\": "src/",
             "Library\\": "lib/",
             "App\\": "app/",
-            "Config\\": "config/"
+            "Config\\": "config/",
+            "Var\\": "var/"
         },
         "files": [
             "config/config.ini.php"
@@ -20,6 +20,9 @@
     ],
     "require": {},
     "scripts": {
-        "server": "php -S localhost:8080 -c php.ini -t public/ public/index.php"
+        "server": [
+            "Composer\\Config::disableProcessTimeout",
+            "php -S localhost:8080 -c php.ini -t public/ public/index.php"
+        ]
     }
 }
