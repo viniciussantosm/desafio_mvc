@@ -17,7 +17,7 @@ class StoreController extends ControllerAbstract {
             if(!Session::getMessage()) {
                 Session::setMessage("error", "Ocorreu um erro, tente novamente");
             };
-            return $this->view("posts.create", $_POST);
+            return Router::redirect("/posts/create");
         }
         Session::setMessage("success", "Post criado com sucesso");
         Router::redirect("/users/index");
