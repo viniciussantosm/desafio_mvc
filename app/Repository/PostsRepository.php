@@ -90,6 +90,10 @@ class PostsRepository extends Repository {
 
     public function save($data)
     {
+        if(!$this->validateData($data)) {
+            return false;
+        };
+
         $ext = array("image/jpg", "image/jpeg", "image/png");
         if(!in_array($data["postImages"]["type"][0], $ext)) {
             return false;
@@ -137,6 +141,25 @@ class PostsRepository extends Repository {
         }
         foreach($data["categories"] as $category) {
             $this->queryBuilder->insertQuery("post_category", ["id_post", "id_category"], [$lastPost[0]["id"], $category]);
+        }
+
+        return true;
+    }
+
+    public function validateData($data)
+    {
+        foreach($data["tags"] as $tag) {
+            if(empty($tag)) {
+                Session::setMessage("error", "Preencha o campo tags!");
+                return false;
+            }
+        }
+
+        foreach($data["categories"] as $category) {
+            if(empty($category)) {
+                Session::setMessage("error", "Preencha o campo categorias!");
+                return false;
+            }
         }
 
         return true;
