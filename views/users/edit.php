@@ -21,7 +21,7 @@
                 <label for="password">Confirme a senha:</label>
                 <input type="password" name="passwordConfirm" required>
             </div>
-            <button class="btn" type="submit">Login</button>
+            <button class="btn" type="submit">Editar</button>
         </form>
     </div>
 </div>

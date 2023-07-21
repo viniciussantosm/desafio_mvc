@@ -11,8 +11,15 @@
     <link rel="icon" type="image/x-icon" href="http://<?=$server["host"]?>/img/favicon.ico">
 </head>
 <body>
-    <nav>
-        <ul>
+    <nav class="top-nav">
+        <div>
+            BloggerO
+        </div>
+        <input id="menu-toggle" type="checkbox" />
+        <label class='menu-button-container' for="menu-toggle">
+        <div class='menu-button'></div>
+        </label>
+        <ul class="menu">
             <li><a href="http://<?=$server["host"]?>/posts/index">Home</a></li>
             <li><a href="http://<?=$server["host"]?>/categories/index">Categorias</a></li>
             <li><a href="http://<?=$server["host"]?>/tags/index">Tags</a></li>
@@ -21,7 +28,7 @@
                 if(Session::isLoggedIn()):
             ?>
                 <li><a href="http://<?=$server["host"]?>/dashboard/index">Dashboard</a></li>
-                <li><span>Bem-vindo,</span> <?=Session::getName()?> / <a href="http://<?=$server["host"]?>/auth/logout">Sair</a></li>
+                <li><span>Bem-vindo,</span> <?=Session::getName()?> / <a href="http://<?=$server["host"]?>/auth/logout" id="exit-link">Sair</a></li>
             <?php else: ?>
                 <li><a href="http://<?=$server["host"]?>/auth/index">Login</a></li>
                 <li><a href="http://<?=$server["host"]?>/auth/register">Registrar</a></li>

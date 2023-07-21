@@ -11,7 +11,7 @@ use App\Model\Session;
 <body>
     <div class="container">
         <div class="top-container">
-            <div class="title-container">
+            <div class="dashboard-title-container">
                 <h1>Dashboard</h1>
             </div>
         </div>
