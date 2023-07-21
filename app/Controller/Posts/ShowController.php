@@ -64,7 +64,7 @@ class ShowController extends ControllerAbstract {
     {
         $tagsText = "";
         foreach($tags as $tag) {
-            $tagsText .= "<a href=\"http://{HTTP_HOST}/tags/show/?id={$tag["id"]}\" class=\"tag-show\">{$tag["name"]}</a>";
+            $tagsText .= "<a href=\"http://$_SERVER[HTTP_HOST]/tags/show/?id={$tag["id"]}\" class=\"tag-show\">{$tag["name"]}</a>";
         }
 
         return $tagsText;
@@ -74,7 +74,7 @@ class ShowController extends ControllerAbstract {
     {
         $categoriesText = "";
         foreach($categories as $category) {
-            $categoriesText .= "<a href=\"http://{HTTP_HOST}/categories/show/?id={$category["id"]}\" class=\"category-show\">{$category["name"]}</a>,";
+            $categoriesText .= "<a href=\"http://$_SERVER[HTTP_HOST]/categories/show/?id={$category["id"]}\" class=\"category-show\">{$category["name"]}</a>,";
         }
 
         return trim($categoriesText, ",");
